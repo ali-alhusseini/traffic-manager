@@ -27,4 +27,13 @@ int main(int argc, char *argv[])
         printf("sequence.txt couldn't be opened.");
     }
 
+    do 
+    {
+        ch = fgetc(file);
+        printf("%c", ch);
+    }
+    while (ch != EOF);
+
+    fclose(file);
+    return 0;
 }
