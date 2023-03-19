@@ -17,24 +17,23 @@ int main(int argc, char *argv[])
         printf("Wrong number of command line arguments.\n");
     }
 
-    // Open seuqnce.txt file
-    FILE* file;
+    // Open sequence.txt file
+    FILE* filePointer;
     char ch;
 
-    file = fopen("sequence.txt", "r");
+    filePointer = fopen("sequence.txt", "r");
 
-    if (NULL == file)
+    if (filePointer == NULL)
     {
-        printf("sequence.txt couldn't be opened.");
+        printf("%s does not exist.\n", "sequence.txt");
     }
 
-    do 
-    {
-        ch = fgetc(file);
+    while((ch = fgetc(filePointer)) != EOF){
         printf("%c", ch);
     }
-    while (ch != EOF);
 
-    fclose(file);
+    if(!fclose(fp)){
+        printf("\n%s: closed.\n", "sequence.txt");
+    }
     return 0;
 }
