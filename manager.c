@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
     // Open sequence.txt file and read in sequence directions
     FILE* filePointer;
     char ch;
+    char directions[100];
+    int directionCount = 0;
 
     filePointer = fopen("sequence.txt", "r");
 
@@ -34,6 +36,12 @@ int main(int argc, char *argv[])
     while((ch = fgetc(filePointer)) != EOF){
         printf("%c", ch);
     }
+    //Get the number of directions
+    fscanf(filePointer, "%d", &directionCount); 
+    //Read in directions
+    for(int i = 0; i < directionCount; i++){
+        fscanf(filePointer, "%s", directions[i]);
+    }
 
     if(!fclose(fp)){
         printf("\n%s: closed.\n", "sequence.txt");
@@ -41,6 +49,8 @@ int main(int argc, char *argv[])
 
     /**
      * TO DO -> CREATE OR WRITE TO A matrix.txt FILE 
+     * contains matrix
+     * n(rows) = length of char
      * initialize matrix.txt values to zero
     */
     /**
