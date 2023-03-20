@@ -30,10 +30,22 @@ int main(int argc, char *argv[])
     {
         printf("%s does not exist.\n", "sequence.txt");
     }
+    //Determine how many characters are in file
+    fseek(filePointer, 0, SEEK_END);
+    //Determine length of file
+    int len = ftell(filePointer);
+    //Move back to beginning of file
+    fseek(filePointer, 0, SEEK_SET);
+    //Allocate memory for directions use len + 1 to iclude null terminating character
+    char *directions = malloc(sizeof(char) * (len + 1));
+    int i = 0;
 
     while((ch = fgetc(filePointer)) != EOF){
-        printf("%c", ch);
+        directions[i] = ch;
+        i++;
     }
+    //Terminate string
+    directions[i] = '\0';
     
 
     if(!fclose(fp)){
