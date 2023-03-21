@@ -7,20 +7,37 @@
 #include <math.h>
 #include <time.h>
 
-//Global variables
 int flag = 0;
 int matrix[][4] = {0}; //Initialize all values to 0
 
-//Function prototypes
-int checkDeadlock(); //change flag to 1 if there's deadlock
-
-
+//change flag to 1 if there's deadlock
+int checkDeadlock(); 
 
 int main(int argc, char *argv[])
 {
-    /**
-     * READ IN SEQUENCE.TXT FILE
-    */
+    if (argc == 2)
+    {
+         double p = atof(argv[1]);
+         if (p >= 0 && p <= 1)
+         {
+            printf("%.2f\n", p);
+         }
+         else
+         {
+            printf("Value of p has to be between 0 and 1");
+            printf("Press enter to continue...");
+            getchar();
+         }
+    }
+    else
+    {
+        printf("Missing command line argument.\n");
+        printf("Program now terminating.");
+        printf("Press enter to continue...");
+        getchar();
+    }
+
+
     // Open sequence.txt file and read in sequence directions
     FILE* filePointer;
     char ch;
@@ -29,8 +46,9 @@ int main(int argc, char *argv[])
 
     if (filePointer == NULL)
     {
-        printf("%s does not exist.\n", "sequence.txt");
+        printf("sequence.txt cannot be opened.\n");
     }
+
     //Determine how many characters are in file
     fseek(filePointer, 0, SEEK_END);
     //Determine length of file
@@ -81,18 +99,7 @@ int main(int argc, char *argv[])
     float r;
     double p;
     r = (float) rand() / RAND_MAX;
-
-    /**
-     * READ IN PROBABILITY P FROM COMMAND LINE
-    */
-    // Check for command line input
-    if (argc == 2)
-    {
-         p = argv[1];
-    }
-    else {
-        printf("Wrong number of command line arguments.\n");
-    }
+ 
     /**
      * USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
     */
