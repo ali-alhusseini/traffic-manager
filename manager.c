@@ -7,6 +7,7 @@
 #include <math.h>
 #include <time.h>
 
+#define FILE* filePointer;
 int flag = 0;
 int matrix[][4] = {0}; //Initialize all values to 0
 
@@ -21,6 +22,16 @@ int main(int argc, char *argv[])
          if (p >= 0 && p <= 1)
          {
             printf("%.2f\n", p);
+
+            // CODE GOES HERE...
+            if (filePointer == NULL)
+            {
+                printf("sequence.txt cannot be opened.\n");
+            }
+            else
+            {
+                 filePointer = fopen("sequence.txt", "r");
+            }
          }
          else
          {
@@ -38,79 +49,79 @@ int main(int argc, char *argv[])
     }
 
 
-    // Open sequence.txt file and read in sequence directions
-    FILE* filePointer;
-    char ch;
+    // // Open sequence.txt file and read in sequence directions
+    
+    // char ch;
 
-    filePointer = fopen("sequence.txt", "r");
-
-    if (filePointer == NULL)
-    {
-        printf("sequence.txt cannot be opened.\n");
-    }
-
-    //Determine how many characters are in file
-    fseek(filePointer, 0, SEEK_END);
-    //Determine length of file
-    int len = ftell(filePointer);
-    //Move back to beginning of file
-    fseek(filePointer, 0, SEEK_SET);
-    //Allocate memory for directions use len + 1 to iclude null terminating character
-    char *directions = malloc(sizeof(char) * (len + 1));
-    int i = 0;
-
-    while((ch = fgetc(filePointer)) != EOF){
-        directions[i] = ch;
-        i++;
-    }
-    //Terminate string
-    directions[i] = '\0';
     
 
-    if(!fclose(fp)){
-        printf("\n%s: closed.\n", "sequence.txt");
-    }
+    // if (filePointer == NULL)
+    // {
+    //     printf("sequence.txt cannot be opened.\n");
+    // }
 
-    /**
-     * TO DO -> CREATE OR WRITE TO A matrix.txt FILE 
-     * contains matrix
-     * n(rows) = length of char
-     * m(columns) number of synchronizing semaphores N, W, S, E
-     * initialize matrix.txt values to zero
-    */
-    FILE* fptr;
-    fptr = fopen("matrix.txt", "w");
+    // //Determine how many characters are in file
+    // fseek(filePointer, 0, SEEK_END);
+    // //Determine length of file
+    // int len = ftell(filePointer);
+    // //Move back to beginning of file
+    // fseek(filePointer, 0, SEEK_SET);
+    // //Allocate memory for directions use len + 1 to iclude null terminating character
+    // char *directions = malloc(sizeof(char) * (len + 1));
+    // int i = 0;
 
-    if(fptr == NULL){
-        printf("Error!");
-        exit(1);
-    }
-    for(int i = 0; i < len; i++){
-        for(int j = 0; j < 4; j++){
-            fprintf(fptr, "%d", matrix[i][j]);
-        }
-    }
-    fclose(fptr);
-    /**
-     * CREATE A RANDOM VALUE BETWEEN 0 and 1
-    */
-    //create a random variable r
-    srand(time(NULL));
-    float r;
-    double p;
-    r = (float) rand() / RAND_MAX;
+    // while((ch = fgetc(filePointer)) != EOF){
+    //     directions[i] = ch;
+    //     i++;
+    // }
+    // //Terminate string
+    // directions[i] = '\0';
+    
+
+    // if(!fclose(fp)){
+    //     printf("\n%s: closed.\n", "sequence.txt");
+    // }
+
+    // /**
+    //  * TO DO -> CREATE OR WRITE TO A matrix.txt FILE 
+    //  * contains matrix
+    //  * n(rows) = length of char
+    //  * m(columns) number of synchronizing semaphores N, W, S, E
+    //  * initialize matrix.txt values to zero
+    // */
+    // FILE* fptr;
+    // fptr = fopen("matrix.txt", "w");
+
+    // if(fptr == NULL){
+    //     printf("Error!");
+    //     exit(1);
+    // }
+    // for(int i = 0; i < len; i++){
+    //     for(int j = 0; j < 4; j++){
+    //         fprintf(fptr, "%d", matrix[i][j]);
+    //     }
+    // }
+    // fclose(fptr);
+    // /**
+    //  * CREATE A RANDOM VALUE BETWEEN 0 and 1
+    // */
+    // //create a random variable r
+    // srand(time(NULL));
+    // float r;
+    // double p;
+    // r = (float) rand() / RAND_MAX;
  
-    /**
-     * USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
-    */
-    //while loop to check for deadlock
-    while(1){
-        if(r < p){
-            checkDeadlock();
-        }
-        if(checkDeadlock() == 0){
-            //if 0 then no deadlock is present
-            //create child processes
-        }
-    }
+    // /**
+    //  * USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
+    // */
+    // //while loop to check for deadlock
+    // while(1){
+    //     if(r < p){
+    //         checkDeadlock();
+    //     }
+    //     if(checkDeadlock() == 0){
+    //         //if 0 then no deadlock is present
+    //         //create child processes
+    //     }
+    // }
 }
