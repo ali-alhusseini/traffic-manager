@@ -27,3 +27,13 @@ Step 3:
 
 -the parent will continue replacing the child processes with execlp until all directions in the sequence array have been read  
 
+QUESTIONS:
+-does the matrix file need to be created within the program or can we just create a file and write to it?
+
+-are all 6 of the semaphores used in bus.c only?
+
+-does the creation of the random variable r need to be inside the while(TRUE) loop so the program creates a new random variable and checks it against the probability p each time
+
+-ask if we can use algorithm found online https://www.scaler.com/topics/dfs-program-in-c/?
+
+
