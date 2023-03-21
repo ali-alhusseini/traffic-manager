@@ -38,4 +38,7 @@ QUESTIONS:
 
 -what is meant by "with 1-p probability it creates the next bus process" in the project description?
 
+REFERENCES:
+https://www.youtube.com/watch?v=Cwa8AQ4rIwg
+
 
