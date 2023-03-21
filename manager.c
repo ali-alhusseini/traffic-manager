@@ -7,7 +7,6 @@
 #include <math.h>
 #include <time.h>
 
-#define FILE* filePointer;
 int flag = 0;
 int matrix[][4] = {0}; //Initialize all values to 0
 
@@ -24,18 +23,20 @@ int main(int argc, char *argv[])
             printf("%.2f\n", p);
 
             // CODE GOES HERE...
+            FILE* filePointer = fopen("sequence.txt", "r");
             if (filePointer == NULL)
             {
-                printf("sequence.txt cannot be opened.\n");
+                printf("Couldn't open file sequence.txt\n");
             }
             else
             {
-                 filePointer = fopen("sequence.txt", "r");
+                printf("file sequence.txt read successfuly.\n");
             }
          }
          else
          {
-            printf("Value of p has to be between 0 and 1");
+            printf("Value of p has to be between 0 and 1\n");
+            printf("Program now terminating.\n");
             printf("Press enter to continue...");
             getchar();
          }
@@ -43,7 +44,7 @@ int main(int argc, char *argv[])
     else
     {
         printf("Missing command line argument.\n");
-        printf("Program now terminating.");
+        printf("Program now terminating.\n");
         printf("Press enter to continue...");
         getchar();
     }
