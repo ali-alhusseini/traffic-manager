@@ -9,7 +9,7 @@
 
 //Global variables
 int flag = 0;
-int matrix[][4] = {0};
+int matrix[][4] = {0}; //Initialize all values to 0
 
 //Function prototypes
 int checkDeadlock(); //change flag to 1 if there's deadlock
@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
      * TO DO -> CREATE OR WRITE TO A matrix.txt FILE 
      * contains matrix
      * n(rows) = length of char
+     * m(columns) number of synchronizing semaphores N, W, S, E
      * initialize matrix.txt values to zero
     */
     FILE* fptr;
