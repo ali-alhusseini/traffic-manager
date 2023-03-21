@@ -36,4 +36,6 @@ QUESTIONS:
 
 -ask if we can use algorithm found online https://www.scaler.com/topics/dfs-program-in-c/?
 
+-what is meant by "with 1-p probability it creates the next bus process" in the project description?
+
 
