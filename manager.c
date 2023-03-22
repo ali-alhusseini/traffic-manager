@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <semaphore.h>
+#include <stdarg.h>
 #include <math.h>
 #include <time.h>
 
@@ -15,9 +16,10 @@ int checkDeadlock();
 
 int main(int argc, char *argv[])
 {
+    double p = 0.0;
     if (argc == 2)
     {
-         double p = atof(argv[1]);
+         p = atof(argv[1]);
          if (p >= 0 && p <= 1)
          {
             printf("%.2f\n", p);
@@ -50,38 +52,34 @@ int main(int argc, char *argv[])
     }
 
 
-    // // Open sequence.txt file and read in sequence directions
-    
-    // char ch;
+     // Open sequence.txt file and read in sequence directions
+     char ch;
+     if (filePointer == NULL)
+     {
+         printf("sequence.txt cannot be opened.\n");
+     }
 
-    
+     //Determine how many characters are in file
+     fseek(filePointer, 0, SEEK_END);
+     //Determine length of file
+     int len = ftell(filePointer);
+     //Move back to beginning of file
+     fseek(filePointer, 0, SEEK_SET);
+     //Allocate memory for directions use len + 1 to iclude null terminating character
+     char *directions = malloc(sizeof(char) * (len + 1));
+     int i = 0;
 
-    // if (filePointer == NULL)
-    // {
-    //     printf("sequence.txt cannot be opened.\n");
-    // }
-
-    // //Determine how many characters are in file
-    // fseek(filePointer, 0, SEEK_END);
-    // //Determine length of file
-    // int len = ftell(filePointer);
-    // //Move back to beginning of file
-    // fseek(filePointer, 0, SEEK_SET);
-    // //Allocate memory for directions use len + 1 to iclude null terminating character
-    // char *directions = malloc(sizeof(char) * (len + 1));
-    // int i = 0;
-
-    // while((ch = fgetc(filePointer)) != EOF){
-    //     directions[i] = ch;
-    //     i++;
-    // }
-    // //Terminate string
-    // directions[i] = '\0';
+     while((ch = fgetc(filePointer)) != EOF){
+         directions[i] = ch;
+         i++;
+     }
+     //Terminate string
+     directions[i] = '\0';
     
 
-    // if(!fclose(fp)){
-    //     printf("\n%s: closed.\n", "sequence.txt");
-    // }
+     if(!fclose(fp)){
+         printf("\n%s: closed.\n", "sequence.txt");
+     }
 
     // /**
     //  * TO DO -> CREATE OR WRITE TO A matrix.txt FILE 
@@ -104,26 +102,23 @@ int main(int argc, char *argv[])
          fprintf(fptr, "\n");
      }
      fclose(fptr);
-    // /**
-    //  * CREATE A RANDOM VALUE BETWEEN 0 and 1
-    // */
-    // //create a random variable r
-    // srand(time(NULL));
-    // float r;
-    // double p;
-    // r = (float) rand() / RAND_MAX;
- 
-    // /**
-    //  * USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
-    // */
-    // //while loop to check for deadlock
-    // while(1){
-    //     if(r < p){
-    //         checkDeadlock();
-    //     }
-    //     if(checkDeadlock() == 0){
-    //         //if 0 then no deadlock is present
-    //         //create child processes
-    //     }
-    // }
+     /**
+      * USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
+     */
+     while(1){
+        srand(time(NULL));
+        float r;
+        r = (float) rand() / RAND_MAX;
+        int j = 0;
+        pid_t bus = getpid();
+         if(r < p){
+             checkDeadlock();
+         } else {
+             //create child processes
+             if(fork() == 0){
+                execlp("bus", direction[i], bus);
+                j++;
+             }
+         }
+     }
 }
