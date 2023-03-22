@@ -90,19 +90,20 @@ int main(int argc, char *argv[])
     //  * m(columns) number of synchronizing semaphores N, W, S, E
     //  * initialize matrix.txt values to zero
     // */
-    // FILE* fptr;
-    // fptr = fopen("matrix.txt", "w");
+     FILE* fptr;
+     fptr = fopen("matrix.txt", "w");
 
-    // if(fptr == NULL){
-    //     printf("Error!");
-    //     exit(1);
-    // }
-    // for(int i = 0; i < len; i++){
-    //     for(int j = 0; j < 4; j++){
-    //         fprintf(fptr, "%d", matrix[i][j]);
-    //     }
-    // }
-    // fclose(fptr);
+     if(fptr == NULL){
+         printf("Error!");
+         exit(1);
+     }
+     for(int i = 0; i < len; i++){
+         for(int j = 0; j < 4; j++){
+             fprintf(fptr, "%d ", matrix[i][j]);
+         }
+         fprintf(fptr, "\n");
+     }
+     fclose(fptr);
     // /**
     //  * CREATE A RANDOM VALUE BETWEEN 0 and 1
     // */
