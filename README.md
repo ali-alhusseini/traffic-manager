@@ -29,6 +29,8 @@ Step 3:
 
 step 4: Cycle Detection Algorithm uses one dynamic data stucture L, a list of nodes, as well as arcs. to prevent repeated inspections arcs will be marked to indicate they have already been inspected.
 
+REFERENCE: Andrew S. Tanenbaum - Modern Operating Systems - Section 6.4.1 Page 445
+
         1. for each node N in the graph perform the following five steps with N as the staring node.
 
         2. Initialize L to the empty list and designate all unmarked outgoing arcs
