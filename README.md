@@ -25,7 +25,21 @@ Step 3:
 
 -if deadlock does not occur then the inside a while(1) loop, child processes will be created using fork() and after a child process has been created the child process will be replaced using a execlp("bus", [direction], [bus pid]). 
 
--the parent will continue replacing the child processes with execlp until all directions in the sequence array have been read  
+-the parent will continue replacing the child processes with execlp until all directions in the sequence array have been read 
+
+step 4: Cycle Detection Algorithm uses one dynamic data stucture L, a list of nodes, as well as arcs. to prevent repeated inspections arcs will be marked to indicate they have already been inspected.
+
+        1. for each node N in the graph perform the following five steps with N as the staring node.
+
+        2. Initialize L to the empty list and designate all unmarked outgoing arcs
+
+        3. Add the current node to the end of L and check to see if the node now appears in L two times. if it does, the graph contains a cycle(listed in L) and the algorithm terminates
+
+        4. From the given node see if there are any unmarked outgoing arcs. If so, go to step 5. if not go to step 6.
+
+        5. Pick an unmarked outgoing arc at random and mark it. Then follow it to the new current node and go to step 3.
+
+        6. If this node is the intitial node, the graph does not contain any cycles and the algorithm terminates. Otherwise we have now reached a dead end. Remove it and go back to the previous node, that is the one that was current just before this one, make that one the current node and go to step 3.
 
 QUESTIONS:
 -does the matrix file need to be created within the program or can we just create a file and write to it?
