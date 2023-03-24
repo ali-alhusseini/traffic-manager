@@ -13,7 +13,14 @@
 #define S 2
 #define E 3
 
-sem_t North, West, South, East, Junction, Matrix; 
+sem_t North, West, South, East, Junction, Matrix;
+//initialize semaphores
+int sem_init(North, 0, 0);
+int sem_init(West, 0, 0);
+int sem_init(South, 0, 0);
+int sem_init(East, 0, 0);
+int sem_init(Junction, 0, 0);
+int sem_init(Matrix, 0, 0); 
 char dir[] = {'North', 'West', 'South', 'East'};
 
 
@@ -22,7 +29,6 @@ int main(int argc, char* argv[]){
     direction = &argv[1];
     int length = &argv[2];
     pid_t busId = &argv[3];
-
 
     for(int i = 0; i < length; i++){
         for(int j = 0; j < 4; j++){
