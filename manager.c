@@ -105,20 +105,26 @@ int main(int argc, char *argv[])
      /**
       * USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
      */
+    int j = 0;
      while(1){
         srand(time(NULL));
         float r;
         r = (float) rand() / RAND_MAX;
-        int j = 0;
         pid_t bus = getpid();
          if(r < p){
              checkDeadlock();
-         } else {
+         } else if(directions[i] != NULL){
+            //else if theres still buses to be created else continue
+            //after continue sleep(2)
              //create child processes
              if(fork() == 0){
-                execlp("bus", direction[i], bus);
+                execlp("bus", direction[i], len, bus);
                 j++;
              }
+         } else {
+            continue;
          }
+        sleep(2);
      }
+     return 0;
 }
