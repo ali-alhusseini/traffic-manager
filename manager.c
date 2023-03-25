@@ -113,12 +113,12 @@ int main(int argc, char *argv[])
         pid_t bus = getpid();
          if(r < p){
              checkDeadlock();
-         } else if(directions[i] != NULL){
+         } else if(directions[j] != NULL){
             //else if theres still buses to be created else continue
             //after continue sleep(2)
              //create child processes
              if(fork() == 0){
-                execlp("bus", direction[i], len, bus);
+                execlp("bus", direction[j], len, bus);
                 j++;
              }
          } else {
