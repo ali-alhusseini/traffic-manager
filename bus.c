@@ -34,6 +34,7 @@ int main(int argc, char* argv[]){
         for(int j = 0; j < 4; j++){
             if(directions[i] == 'N'){
                 printf("Bus %d %c bus started\n",busId, dir[N]);
+                printf("Bus %d %c bus started\n",getpid(), dir[W]);
                 sem_wait(&Matrix);
                 printf("Bus %d request for %c-Lock\n", busId, dir[N]);
                 matrix[i][j] = 1;
@@ -75,7 +76,8 @@ int main(int argc, char* argv[]){
 
             } else if(directions[i] == 'W'){
 
-                printf("Bus %d %c bus started\n", busId, dir[W]);
+                printf("Bus %d %c bus started\n",busId, dir[W]);
+                printf("Bus %d %c bus started\n",getpid(), dir[S]);
 
                 sem_wait(&Matrix);
                 printf("Bus %d request for %c-Lock\n", busId, dir[W]);
@@ -119,6 +121,7 @@ int main(int argc, char* argv[]){
             } else if(directions[i] == 'S'){
 
                 printf("Bus %d %c bus started\n",busId, dir[S]);
+                printf("Bus %d %c bus started\n",getpid(), dir[E]);
                 
                 sem_wait(&Matrix);
                 printf("Bus %d request for %c-Lock\n", busId, dir[S]);
@@ -161,6 +164,7 @@ int main(int argc, char* argv[]){
             } else {
                 direction[i] = 'E';
                 printf("Bus %d %c bus started\n",busId, dir[E]);
+                printf("Bus %d %c bus started\n",getpid(), dir[N]);
                 
                 sem_wait(&Matrix);
                 printf("Bus %d request for %c-Lock\n", busId, dir[E]);
