@@ -38,21 +38,21 @@ int main(int argc, char* argv[]){
                 printf("Bus %d %c bus started\n",getpid(), dir[W]);
                 sem_wait(&Matrix);
                 printf("Bus %d request for %c-Lock\n", busId, dir[N]);
-                matrix[i][j] = 1;
+                matrix[i][N] = 1;
                 sem_post(&Matrix);
 
                 sem_wait(&North);
 
                 sem_wait(&Matrix);
                 printf("Bus %d %c Acquires %c-lock\n", busId, dir[N]);
-                matrix[i][j] = 2;
+                matrix[i][N] = 2;
                 sem_post(&Matrix);
 
                 sem_wait(&West);
 
                 sem_wait(&Matrix);
                 printf("Bus %d Requests for %c-lock\n", getpid(), dir[W]);
-                Matrix[i][W] = 1
+                matrix[i][W] = 1
                 sem_post(&Matrix);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
