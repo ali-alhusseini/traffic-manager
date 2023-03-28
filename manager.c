@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
             int matrix[n_buses][MAX_SEMAPHORES] = {0};
             for (int i = 0; i < n_buses; i++) {
                 for (j = 0; j < MAX_SEMAPHORES; j++) {
-                    fprintf(matrix_file, "0 ");
+                    fprintf(matrix_file, "%d ", matrix[i][j]);
                 }
                 fprintf(matrix_file, "\n");
             }
