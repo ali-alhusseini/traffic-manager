@@ -40,6 +40,13 @@ int main(int argc, char *argv[]) {
                 return 1;
             }
             int matrix[n_buses][MAX_SEMAPHORES] = {0};
+            for (int i = 0; i < n_buses; i++) {
+                for (j = 0; j < MAX_SEMAPHORES; j++) {
+                    fprintf(matrix_file, "0 ");
+                }
+                fprintf(matrix_file, "\n");
+            }
+
 
             //Close Files
             fclose(seq_file);
