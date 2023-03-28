@@ -13,6 +13,7 @@
 
 // Change flag to 1 if there's deadlock
 int checkDeadlock(); 
+int matrix[][MAX_SEMAPHORES] = {0};
 
 int main(int argc, char *argv[]) {
     if (argc == 2) {
@@ -39,20 +40,20 @@ int main(int argc, char *argv[]) {
                 buses[i] = ch;
                 i++;
             }
-            
+
             // Create the matrix.txt file and initialize the matrix to 0
             matrix_file = fopen("matrix.txt", "w");
             if (matrix_file == NULL) {
                 printf("Error creating file matrix.txt\n");
                 return 1;
             }
-            int matrix[n_buses][MAX_SEMAPHORES] = {0};
             for (int i = 0; i < n_buses; i++) {
-                for (j = 0; j < MAX_SEMAPHORES; j++) {
+                for (int j = 0; j < MAX_SEMAPHORES; j++) {
                     fprintf(matrix_file, "%d ", matrix[i][j]);
                 }
                 fprintf(matrix_file, "\n");
             }
+
             // USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
             int j = 0;
             while(1) {
