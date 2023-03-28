@@ -8,12 +8,10 @@
 #include <math.h>
 #include <time.h>
 
-#define MAX_SIZE 1000
+#define MAX_BUSES 100 // Maximum number of buses
+#define MAX_SEMAPHORES 4 // Number of synchronizing semaphores
 
-//Initialize all values to 0
-int matrix[][4] = {0}; 
-
-//change flag to 1 if there's deadlock
+// Change flag to 1 if there's deadlock
 int checkDeadlock(); 
 
 int main(int argc, char *argv[]) {
@@ -21,38 +19,32 @@ int main(int argc, char *argv[]) {
         double p = atof(argv[1]);
 
         if (p >= 0 && p <= 1) {
+            FILE *seq_file, *matrix_file;
+            int buses[MAX_BUSES];
+            int n_buses = 0; // Number of buses in sequence.txt
 
-
-            FILE* sequenceFile = fopen("sequence.txt", "r");
-            FILE* matrixFile = fopen("matrix.txt", w);
-            char directions[MAX_SIZE];
-            int count = 0;
-
-            if (sequenceFile == NULL) {
+            // Read the number of buses from the sequence.txt file
+            seq_file = fopen("sequence.txt", "r");
+            if (seq_file == NULL) {
                 printf("Couldn't open file sequence.txt\n");
                 return 1;
             }
-            while (fscanf(sequenceFile, "%c", &directions[count]) != EOF) {
-                count++;
+            while (fscanf(seq_file, "%c", &buses[n_buses]) != EOF) {
+                n_buses++;
             }
-
-            if (matrixFile == NULL) {
-                printf("Couldn't open file matrix.txt\n");
+            
+            // Create the matrix.txt file and initialize the matrix to 0
+            matrix_file = fopen("matrix.txt", "w");
+            if (matrix_file == NULL) {
+                printf("Error creating file matrix.txt\n");
                 return 1;
             }
-
-            for (int i = 0; i < count; i++) {
-                for (int j = 0; j < 4; j++) {
-                    fprintf(matrixFile, "%d ", matrix[i][j]);
-                }
-                fprintf(matrixFile, "\n");
-            }
-
+            int matrix[n_buses][MAX_SEMAPHORES] = {0};
 
             //Close Files
-            fclose(sequenceFile);
-            fclose(matrixFile);
-
+            fclose(seq_file);
+            fclose(matrix_file);
+            return 0;
         } else {
             printf("Value of p has to be between 0 and 1\n");
             printf("Program now terminating.\n");
