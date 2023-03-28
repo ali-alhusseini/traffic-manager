@@ -46,7 +46,28 @@ int main(int argc, char *argv[]) {
                 }
                 fprintf(matrix_file, "\n");
             }
-
+            // USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
+            int j = 0;
+            while(1) {
+                srand(time(NULL));
+                float r;
+                r = (float) rand() / RAND_MAX;
+                pid_t bus = getpid();
+                 if(r < p){
+                     checkDeadlock();
+                 } else if(directions[j] != NULL){
+                    //else if theres still buses to be created else continue
+                    //after continue sleep(2)
+                     //create child processes
+                     if(fork() == 0){
+                        execlp("bus", direction[j], len, bus);
+                        j++;
+                     }
+                 } else {
+                    continue;
+                }
+            sleep(2);
+            }
 
             //Close Files
             fclose(seq_file);
@@ -65,39 +86,5 @@ int main(int argc, char *argv[]) {
         printf("Press enter to continue...");
         getchar();
     }
-
-    // /**
-    //  * TO DO -> CREATE OR WRITE TO A matrix.txt FILE 
-    //  * contains matrix
-    //  * n(rows) = length of char
-    //  * m(columns) number of synchronizing semaphores N, W, S, E
-    //  * initialize matrix.txt values to zero
-    // */
-
-     
-     /**
-      * USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
-     */
-    int j = 0;
-     while(1){
-        srand(time(NULL));
-        float r;
-        r = (float) rand() / RAND_MAX;
-        pid_t bus = getpid();
-         if(r < p){
-             checkDeadlock();
-         } else if(directions[j] != NULL){
-            //else if theres still buses to be created else continue
-            //after continue sleep(2)
-             //create child processes
-             if(fork() == 0){
-                execlp("bus", direction[j], len, bus);
-                j++;
-             }
-         } else {
-            continue;
-         }
-        sleep(2);
-     }
      return 0;
 }
