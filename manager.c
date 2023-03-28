@@ -8,78 +8,46 @@
 #include <math.h>
 #include <time.h>
 
-int flag = 0;
-int matrix[][4] = {0}; //Initialize all values to 0
+#define MAX_SIZE 1000
+
+//Initialize all values to 0
+int matrix[][4] = {0}; 
 
 //change flag to 1 if there's deadlock
 int checkDeadlock(); 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
+    //Probability value
     double p = 0.0;
-    if (argc == 2)
-    {
-         p = atof(argv[1]);
-         if (p >= 0 && p <= 1)
-         {
-            printf("%.2f\n", p);
 
-            // CODE GOES HERE...
-            FILE* filePointer = fopen("sequence.txt", "r");
-            if (filePointer == NULL)
-            {
-                printf("Couldn't open file sequence.txt\n");
-            }
-            else
-            {
-                printf("file sequence.txt read successfuly.\n");
-            }
-         }
-         else
-         {
+    if (argc == 2) {
+        p = atof(argv[1]);
+
+        if (p >= 0 && p <= 1) {
+           FILE* file = fopen("sequence.txt", "r");
+           char directions[MAX_SIZE];
+           int count = 0;
+           if (file == NULL) {
+               printf("Couldn't open file sequence.txt\n");
+               return 1;
+           }
+           while (fscanf(file, "%c", &directions[count]) != EOF) {
+               count++;
+           }
+           fclose(file);
+        } else {
             printf("Value of p has to be between 0 and 1\n");
             printf("Program now terminating.\n");
             printf("Press enter to continue...");
             getchar();
-         }
-    }
-    else
-    {
+        }
+
+    } else {
         printf("Missing command line argument.\n");
         printf("Program now terminating.\n");
         printf("Press enter to continue...");
         getchar();
     }
-
-
-     // Open sequence.txt file and read in sequence directions
-     char ch;
-     if (filePointer == NULL)
-     {
-         printf("sequence.txt cannot be opened.\n");
-     }
-
-     //Determine how many characters are in file
-     fseek(filePointer, 0, SEEK_END);
-     //Determine length of file
-     int len = ftell(filePointer);
-     //Move back to beginning of file
-     fseek(filePointer, 0, SEEK_SET);
-     //Allocate memory for directions use len + 1 to iclude null terminating character
-     char *directions = malloc(sizeof(char) * (len + 1));
-     int i = 0;
-
-     while((ch = fgetc(filePointer)) != EOF){
-         directions[i] = ch;
-         i++;
-     }
-     //Terminate string
-     directions[i] = '\0';
-    
-
-     if(!fclose(fp)){
-         printf("\n%s: closed.\n", "sequence.txt");
-     }
 
     // /**
     //  * TO DO -> CREATE OR WRITE TO A matrix.txt FILE 

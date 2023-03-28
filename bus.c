@@ -14,6 +14,7 @@
 #define E 3
 
 sem_t North, West, South, East, Junction, Matrix;
+
 //initialize semaphores
 int sem_init(North, 0, 0);
 int sem_init(West, 0, 0);
