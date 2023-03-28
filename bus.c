@@ -52,7 +52,7 @@ int main(int argc, char* argv[]){
 
                 sem_wait(&Matrix);
                 printf("Bus %d Requests for %c-lock\n", getpid(), dir[W]);
-                matrix[i][W] = 1
+                matrix[i][W] = 1;
                 sem_post(&Matrix);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
