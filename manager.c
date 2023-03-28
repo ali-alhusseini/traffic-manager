@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 
         if (p >= 0 && p <= 1) {
             FILE *seq_file, *matrix_file;
-            int buses[MAX_BUSES];
+            char buses[MAX_BUSES];
             int n_buses = 0; // Number of buses in sequence.txt
 
             // Read the number of buses from the sequence.txt file
@@ -31,6 +31,13 @@ int main(int argc, char *argv[]) {
             }
             while (fscanf(seq_file, "%c", &buses[n_buses]) != EOF) {
                 n_buses++;
+            }
+
+            int i = 0;
+            char ch;
+            while ((ch = fgetc(seq_file)) != EOF) {
+                buses[i] = ch;
+                i++;
             }
             
             // Create the matrix.txt file and initialize the matrix to 0
