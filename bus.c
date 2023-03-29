@@ -188,7 +188,7 @@ int main(int argc, char* argv[]){
 
                 sem_wait(&matrix);
                 printf("Bus %d request for North-Lock\n", busId);
-                Matrix[i][N] = 1
+                Matrix[i][N] = 1;
                 sem_post(&matrix);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
