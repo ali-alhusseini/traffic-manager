@@ -17,12 +17,12 @@
 sem_t North, West, South, East, Junction, Matrix;
 
 //initialize semaphores
-int sem_init(North, 0, 0);
-int sem_init(West, 0, 0);
-int sem_init(South, 0, 0);
-int sem_init(East, 0, 0);
-int sem_init(Junction, 0, 0);
-int sem_init(Matrix, 0, 0); 
+ sem_init(North, 0, 0);
+ sem_init(West, 0, 0);
+ sem_init(South, 0, 0);
+ sem_init(East, 0, 0);
+ sem_init(Junction, 0, 0);
+ sem_init(Matrix, 0, 0); 
 char dir[] = {'North', 'West', 'South', 'East'};
 
 
