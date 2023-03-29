@@ -32,6 +32,7 @@ int main(int argc, char* argv[]){
     pid_t busId = &argv[3];
 
     FILE Matrix_file = &argv[4];
+    int matrix[][4] = {0};
 
     for(int i = 0; i < length; i++){
         for(int j = 0; j < 4; j++){
@@ -41,6 +42,7 @@ int main(int argc, char* argv[]){
                 sem_wait(&Matrix);
                 printf("Bus %d request for %c-Lock\n", busId, dir[N]);
                 matrix[i][N] = 1;
+                fprintf(matrix_file, "%d", matrix[i][N]);//updating the matrix.txt and specific value
                 sem_post(&Matrix);
 
                 sem_wait(&North);
