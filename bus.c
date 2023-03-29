@@ -62,7 +62,8 @@ int main(int argc, char* argv[]){
 
                 printf("Bus %d Request Junction-Lock\n", busId);
                 sem_wait(&junction);
-                printf("Bus %d Acquires Junction-Lock; Passing Junction\n");
+                printf("Bus %d Acquires Junction-Lock; Passing Junction\n", busId);
+                sleep(2);
                 sem_post(&junction);
                 printf("Bus %d releases Junction-Lock\n", busId);
 
@@ -106,7 +107,8 @@ int main(int argc, char* argv[]){
 
                 printf("Bus %d Request Junction-Lock\n", busId);
                 sem_wait(&junction);
-                printf("Bus %d Acquires Junction-Lock; Passing Junction\n");
+                printf("Bus %d Acquires Junction-Lock; Passing Junction\n", busId);
+                sleep(2);
                 sem_post(&junction);
                 printf("Bus %d releases Junction-Lock\n", busId);
 
@@ -150,7 +152,8 @@ int main(int argc, char* argv[]){
 
                 printf("Bus %d Request Junction-Lock\n", busId);
                 sem_wait(&junction);
-                printf("Bus %d Acquires Junction-Lock; Passing Junction\n");
+                printf("Bus %d Acquires Junction-Lock; Passing Junction\n", busId);
+                sleep(2);
                 sem_post(&junction);
                 printf("Bus %d releases Junction-Lock\n", busId);
 
@@ -193,7 +196,8 @@ int main(int argc, char* argv[]){
 
                 printf("Bus %d Request Junction-Lock\n", busId);
                 sem_wait(&junction);
-                printf("Bus %d Acquires Junction-Lock; Passing Junction\n");
+                printf("Bus %d Acquires Junction-Lock; Passing Junction\n", busId);
+                sleep(2);
                 sem_post(&junction);
                 printf("Bus %d releases Junction-Lock\n", busId);
 
