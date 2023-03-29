@@ -11,9 +11,11 @@
 #define MAX_BUSES 100 // Maximum number of buses
 #define MAX_SEMAPHORES 4 // Number of synchronizing semaphores
 
-// Change flag to 1 if there's deadlock
-int checkDeadlock(); 
 int matrix[][MAX_SEMAPHORES] = {0};
+
+bool checkDeadlock() {
+
+}
 
 int main(int argc, char *argv[]) {
     if (argc == 2) {
@@ -64,12 +66,14 @@ int main(int argc, char *argv[]) {
                 pid_t bus = getpid();
                  if(r < p){
                      checkDeadlock();
-                 } else if(directions[j] != NULL){
+                 } else if(buses[j] != NULL){
                     //else if theres still buses to be created else continue
                     //after continue sleep(2)
                      //create child processes
                      if(fork() == 0){
-                        execlp("bus", buses[j], buses[n_buses], matrix_file, bus);
+                        char n_buses_str[10];
+                        sprintf(n_buses_str, "%d", n_buses);
+                        execlp("./bus", "bus", buses[j], n_buses_str, matrix_file, bus, NULL);
                         j++;
                      }
                  } else {
