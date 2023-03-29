@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
     int length = strlen(&argv[2]);
     pid_t busId = &argv[3];
 
-    FILE Matrix_file = &argv[4];
+    FILE* matrix_f = fopen("matrix.txt", "r+"); 
     int matrix[][4] = {0};
 
     for(int i = 0; i < length; i++){
@@ -40,24 +40,30 @@ int main(int argc, char* argv[]){
             if(directions[i] == 'N'){
                 printf("Bus %d North bus started\n",busId);
                 printf("Bus %d West bus started\n",getpid());
+
                 sem_wait(&matrix_lock);
                 printf("Bus %d request for North-Lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][N]);
                 matrix[i][N] = 1;
-                fprintf(matrix_file, "%d", matrix[i][N]);//updating the matrix.txt and specific value
+                fprintf(matrix_f, "%d", matrix[i][N]);//updating the matrix.txt and specific value
                 sem_post(&matrix_lock);
 
                 sem_wait(&north);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d North Acquires North-lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][N]);
                 matrix[i][N] = 2;
+                fprintf(matrix_f, "%d", matrix[i][N]);
                 sem_post(&matrix_lock);
 
                 sem_wait(&west);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d request for West-Lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][W]);
                 matrix[i][W] = 1;
+                fprintf(matrix_f, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
@@ -71,14 +77,18 @@ int main(int argc, char* argv[]){
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d West releases West-lock\n", getpid());
+                fscanf(matrix_f, "%d", &matrix[i][W]);
                 matrix[i][W] = 0;
+                fprintf(matrix_f, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
                 sem_post(&north);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d North releases North-lock\n", getpid());
+                fscanf(matrix_f, "%d", &matrix[i][N]);
                 matrix[i][N] = 0;
+                fprintf(matrix_f, "%d", matrix[i][N]);
                 sem_post(&matrix_lock);
 
             } else if(directions[i] == 'W'){
@@ -88,21 +98,27 @@ int main(int argc, char* argv[]){
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d request for West-Lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][W]);
                 matrix[i][W] = 1;
+                fprintf(matrix_f, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
                 sem_wait(&west);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d West Acquires West-lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][W]);
                 matrix[i][W] = 2;
+                fprintf(matrix_f, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
                 sem_wait(&south);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d request for South-Lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][S]);
                 matrix[i][S] = 1;
+                fprintf(matrix_f, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
@@ -116,14 +132,18 @@ int main(int argc, char* argv[]){
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d South releases South-lock\n", getpid());
+                fscanf(matrix_f, "%d", &matrix[i][S]);
                 matrix[i][S] = 0;
+                fprintf(matrix_f, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
 
                 sem_post(&west);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d West releases West-lock\n", getpid());
+                fscanf(matrix_f, "%d", &matrix[i][W]);
                 matrix[i][W] = 0;
+                fprintf(matrix_f, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
             } else if(directions[i] == 'S'){
@@ -133,21 +153,27 @@ int main(int argc, char* argv[]){
                 
                 sem_wait(&matrix_lock);
                 printf("Bus %d request for South-Lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][S]);
                 matrix[i][S] = 1;
+                fprintf(matrix_f, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
 
                 sem_wait(&south);
 
-                sem_wait(&matrix_lockx);
+                sem_wait(&matrix_lock);
                 printf("Bus %d South Acquires South-lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][S]);
                 matrix[i][S] = 2;
+                fprintf(matrix_f, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
 
                 sem_wait(&east);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d request for East-Lock\n", busId);
-                Matrix[i][E] = 1;
+                fscanf(matrix_f, "%d", &matrix[i][E]);
+                matrix[i][E] = 1;
+                fprintf(matrix_f, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
@@ -161,14 +187,18 @@ int main(int argc, char* argv[]){
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d East releases East-lock\n", getpid());
+                fscanf(matrix_f, "%d", &matrix[i][E]);
                 matrix[i][E] = 0;
+                fprintf(matrix_f, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
 
                 sem_post(&south);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d South releases South-lock\n", getpid());
+                fscanf(matrix_f, "%d", &matrix[i][S]);
                 matrix[i][S] = 0;
+                fprintf(matrix_f, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
             } else {
                 direction[i] = 'E';
@@ -177,21 +207,27 @@ int main(int argc, char* argv[]){
                 
                 sem_wait(&matrix_lock);
                 printf("Bus %d request for East-Lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][E]);
                 matrix[i][E] = 1;
+                fprintf(matrix_f, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
 
                 sem_wait(&east);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d East Acquires East-lock\n", busId);
+                fscanf(matrix_f, "%d", &matrix[i][E]);
                 matrix[i][E] = 2;
+                fprintf(matrix_f, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
 
                 sem_wait(&north);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d request for North-Lock\n", busId);
-                Matrix[i][N] = 1;
+                fscanf(matrix_f, "%d", &matrix[i][N]);
+                matrix[i][N] = 1;
+                fprintf(matrix_f, "%d", matrix[i][N]);
                 sem_post(&matrix_lock);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
@@ -205,14 +241,18 @@ int main(int argc, char* argv[]){
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d North releases North-lock\n", getpid());
+                fscanf(matrix_f, "%d", &matrix[i][N]);
                 matrix[i][N] = 0;
+                fprintf(matrix_f, "%d", matrix[i][N]);
                 sem_post(&matrix_lock);
 
                 sem_post(&east);
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d East releases East-lock\n", getpid());
+                fscanf(matrix_f, "%d", &matrix[i][E]);
                 matrix[i][E] = 0;
+                fprintf(matrix_f, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
             }
         }
