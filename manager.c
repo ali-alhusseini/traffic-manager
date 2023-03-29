@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
                     //after continue sleep(2)
                      //create child processes
                      if(fork() == 0){
-                        execlp("bus", direction[j], n_buses, bus);
+                        execlp("bus", buses[j], buses[n_buses] bus);
                         j++;
                      }
                  } else {
