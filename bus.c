@@ -17,12 +17,12 @@
 sem_t north, west, south, east, junction, matrix_lock;
 
 //initialize semaphores
- sem_init(&north, 0, 0);
- sem_init(&west, 0, 0);
- sem_init(&south, 0, 0);
- sem_init(&east, 0, 0);
- sem_init(&junction, 0, 0);
- sem_init(&matrix_lock, 0, 0); 
+ sem_init(&north, 1, 0);
+ sem_init(&west, 1, 0);
+ sem_init(&south, 1, 0);
+ sem_init(&east, 1, 0);
+ sem_init(&junction, 1, 0);
+ sem_init(&matrix_lock, 1, 0); 
 
 
 
