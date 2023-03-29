@@ -7,6 +7,7 @@
 #include <stdarg.h>
 #include <math.h>
 #include <time.h>
+#include <string.h>
 
 #define N 0
 #define W 1
@@ -28,7 +29,7 @@ char dir[] = {'North', 'West', 'South', 'East'};
 int main(int argc, char* argv[]){
     char direction[100];
     direction = &argv[1];
-    int length = &argv[2];
+    int length = strlen(&argv[2]);
     pid_t busId = &argv[3];
 
     FILE Matrix_file = &argv[4];
