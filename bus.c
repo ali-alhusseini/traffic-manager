@@ -14,16 +14,16 @@
 #define S 2
 #define E 3
 
-sem_t North, West, South, East, Junction, Matrix;
+sem_t north, west, south, east, junction, matrix;
 
 //initialize semaphores
- sem_init(&North, 0, 0);
- sem_init(&West, 0, 0);
- sem_init(&South, 0, 0);
- sem_init(&East, 0, 0);
- sem_init(&Junction, 0, 0);
- sem_init(&Matrix, 0, 0); 
-char dir[] = {'North', 'West', 'South', 'East'};
+ sem_init(&north, 0, 0);
+ sem_init(&west, 0, 0);
+ sem_init(&south, 0, 0);
+ sem_init(&east, 0, 0);
+ sem_init(&junction, 0, 0);
+ sem_init(&matrix, 0, 0); 
+
 
 
 int main(int argc, char* argv[]){
@@ -38,178 +38,178 @@ int main(int argc, char* argv[]){
     for(int i = 0; i < length; i++){
         for(int j = 0; j < 4; j++){
             if(directions[i] == 'N'){
-                printf("Bus %d %c bus started\n",busId, dir[N]);
-                printf("Bus %d %c bus started\n",getpid(), dir[W]);
-                sem_wait(&Matrix);
-                printf("Bus %d request for %c-Lock\n", busId, dir[N]);
+                printf("Bus %d North bus started\n",busId);
+                printf("Bus %d West bus started\n",getpid());
+                sem_wait(&matrix);
+                printf("Bus %d request for North-Lock\n", busId);
                 matrix[i][N] = 1;
                 fprintf(matrix_file, "%d", matrix[i][N]);//updating the matrix.txt and specific value
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_wait(&North);
+                sem_wait(&north);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c Acquires %c-lock\n", busId, dir[N]);
+                sem_wait(&matrix);
+                printf("Bus %d North Acquires North-lock\n", busId);
                 matrix[i][N] = 2;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_wait(&West);
+                sem_wait(&west);
 
-                sem_wait(&Matrix);
-                printf("Bus %d Requests for %c-lock\n", getpid(), dir[W]);
+                sem_wait(&matrix);
+                printf("Bus %d request for West-Lock\n", busId);
                 matrix[i][W] = 1;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
-                sem_wait(&Junction);
+                sem_wait(&junction);
                 printf("Bus %d Acquires Junction-Lock; Passing Junction\n");
-                sem_post(&Junction);
+                sem_post(&junction);
                 printf("Bus %d releases Junction-Lock\n", busId);
 
-                sem_post(&West);
+                sem_post(&west);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c releases %c-lock\n", getpid(), dir[W]);
+                sem_wait(&matrix);
+                printf("Bus %d West releases West-lock\n", getpid());
                 matrix[i][W] = 0;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_post(&North);
+                sem_post(&north);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c Releases %c-lock\n", busId, dir[N]);
+                sem_wait(&matrix);
+                printf("Bus %d North releases North-lock\n", getpid());
                 matrix[i][N] = 0;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
             } else if(directions[i] == 'W'){
 
-                printf("Bus %d %c bus started\n",busId, dir[W]);
-                printf("Bus %d %c bus started\n",getpid(), dir[S]);
+                printf("Bus %d West bus started\n",busId);
+                printf("Bus %d South bus started\n",getpid());
 
-                sem_wait(&Matrix);
-                printf("Bus %d request for %c-Lock\n", busId, dir[W]);
+                sem_wait(&matrix);
+                printf("Bus %d request for West-Lock\n", busId);
                 matrix[i][W] = 1;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_wait(&West);
+                sem_wait(&west);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c Acquires %c-lock\n", busId, dir[W]);
+                sem_wait(&matrix);
+                printf("Bus %d West Acquires West-lock\n", busId);
                 matrix[i][W] = 2;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_wait(&South);
+                sem_wait(&south);
 
-                sem_wait(&Matrix);
-                printf("Bus %d Requests for %c-lock\n", getpid(), dir[S]);
-                Matrix[i][S] = 1
-                sem_post(&Matrix);
+                sem_wait(&matrix);
+                printf("Bus %d request for South-Lock\n", busId);
+                Matrix[i][S] = 1;
+                sem_post(&matrix);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
-                sem_wait(&Junction);
+                sem_wait(&junction);
                 printf("Bus %d Acquires Junction-Lock; Passing Junction\n");
-                sem_post(&Junction);
+                sem_post(&junction);
                 printf("Bus %d releases Junction-Lock\n", busId);
 
-                sem_post(&South);
+                sem_post(&south);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c releases %c-lock\n", getpid(), dir[S]);
+                sem_wait(&matrix);
+                printf("Bus %d South releases South-lock\n", getpid());
                 matrix[i][S] = 0;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_post(&West);
+                sem_post(&west);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c Releases %c-lock\n", busId, dir[W]);
+                sem_wait(&matrix);
+                printf("Bus %d West releases West-lock\n", getpid());
                 matrix[i][W] = 0;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
             } else if(directions[i] == 'S'){
 
-                printf("Bus %d %c bus started\n",busId, dir[S]);
-                printf("Bus %d %c bus started\n",getpid(), dir[E]);
+                printf("Bus %d South bus started\n",busId);
+                printf("Bus %d East bus started\n",getpid());
                 
-                sem_wait(&Matrix);
-                printf("Bus %d request for %c-Lock\n", busId, dir[S]);
+                sem_wait(&matrix);
+                printf("Bus %d request for South-Lock\n", busId);
                 matrix[i][S] = 1;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_wait(&South);
+                sem_wait(&south);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c Acquires %c-lock\n", busId, dir[S]);
+                sem_wait(&matrix);
+                printf("Bus %d South Acquires South-lock\n", busId);
                 matrix[i][S] = 2;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_wait(&East);
+                sem_wait(&east);
 
-                sem_wait(&Matrix);
-                printf("Bus %d Requests for %c-lock\n", getpid(), dir[E]);
+                sem_wait(&matrix);
+                printf("Bus %d request for East-Lock\n", busId);
                 Matrix[i][E] = 1
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
-                sem_wait(&Junction);
+                sem_wait(&junction);
                 printf("Bus %d Acquires Junction-Lock; Passing Junction\n");
-                sem_post(&Junction);
+                sem_post(&junction);
                 printf("Bus %d releases Junction-Lock\n", busId);
 
-                sem_post(&East);
+                sem_post(&east);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c releases %c-lock\n", getpid(), dir[E]);
+                sem_wait(&matrix);
+                printf("Bus %d East releases East-lock\n", getpid());
                 matrix[i][E] = 0;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_post(&South);
+                sem_post(&south);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c Releases %c-lock\n", busId, dir[S]);
+                sem_wait(&matrix);
+                printf("Bus %d South releases South-lock\n", getpid());
                 matrix[i][S] = 0;
-                sem_post(&Matrix);
+                sem_post(&matrix);
             } else {
                 direction[i] = 'E';
-                printf("Bus %d %c bus started\n",busId, dir[E]);
-                printf("Bus %d %c bus started\n",getpid(), dir[N]);
+                printf("Bus %d East bus started\n",busId);
+                printf("Bus %d North bus started\n",getpid());
                 
-                sem_wait(&Matrix);
-                printf("Bus %d request for %c-Lock\n", busId, dir[E]);
+                sem_wait(&matrix);
+                printf("Bus %d request for East-Lock\n", busId);
                 matrix[i][E] = 1;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_wait(&East);
+                sem_wait(&east);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c Acquires %c-lock\n", busId, dir[E]);
+                sem_wait(&matrix);
+                printf("Bus %d East Acquires East-lock\n", busId);
                 matrix[i][E] = 2;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_wait(&North);
+                sem_wait(&north);
 
-                sem_wait(&Matrix);
-                printf("Bus %d Requests for %c-lock\n", getpid(), dir[N]);
-                Matrix[i][N] = 1;
-                sem_post(&Matrix);
+                sem_wait(&matrix);
+                printf("Bus %d request for North-Lock\n", busId);
+                Matrix[i][N] = 1
+                sem_post(&matrix);
 
                 printf("Bus %d Request Junction-Lock\n", busId);
-                sem_wait(&Junction);
+                sem_wait(&junction);
                 printf("Bus %d Acquires Junction-Lock; Passing Junction\n");
-                sem_post(&Junction);
+                sem_post(&junction);
                 printf("Bus %d releases Junction-Lock\n", busId);
 
-                sem_post(&North);
+                sem_post(&north);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c releases %c-lock\n", getpid(), dir[N]);
+                sem_wait(&matrix);
+                printf("Bus %d North releases North-lock\n", getpid());
                 matrix[i][N] = 0;
-                sem_post(&Matrix);
+                sem_post(&matrix);
 
-                sem_post(&East);
+                sem_post(&east);
 
-                sem_wait(&Matrix);
-                printf("Bus %d %c Releases %c-lock\n", busId, dir[E]);
+                sem_wait(&matrix);
+                printf("Bus %d East releases East-lock\n", getpid());
                 matrix[i][E] = 0;
-                sem_post(&Matrix);
+                sem_post(&matrix);
             }
         }
     }
