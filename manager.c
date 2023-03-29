@@ -53,6 +53,7 @@ int main(int argc, char *argv[]) {
                 }
                 fprintf(matrix_file, "\n");
             }
+            fseek(matrix_file, 0, SEEK_SET); //set the cursor back to the beginning of the matrix for updating in bus
 
             // USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
             int j = 0;
