@@ -31,6 +31,8 @@ int main(int argc, char* argv[]){
     int length = &argv[2];
     pid_t busId = &argv[3];
 
+    FILE Matrix_file = &argv[4];
+
     for(int i = 0; i < length; i++){
         for(int j = 0; j < 4; j++){
             if(directions[i] == 'N'){
