@@ -29,7 +29,7 @@ sem_t north, west, south, east, junction, matrix_lock;
 int main(int argc, char* argv[]){
     char direction[100];
     direction = &argv[1];
-    int *n_buses_str = argv[2];
+    char *n_buses_str = argv[2];
     pid_t busId = &argv[3];
 
     FILE* matrix_f = fopen("matrix.txt", "r+"); 
