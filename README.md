@@ -62,3 +62,7 @@ https://www.scaler.com/topics/dfs-program-in-c/
 https://www.geeksforgeeks.org/c-program-to-count-the-number-of-characters-in-a-file/
 
 https://cboard.cprogramming.com/c-programming/150672-read-strings-text-file-into-char-array.html
+
+https://www.programiz.com/c-programming/c-file-input-output
+
+https://blog.udemy.com/fopen-c/
