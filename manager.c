@@ -12,6 +12,10 @@
 #define BUFFER 100
 #define MAX_SEMAPHORES 4
 
+// Global variables
+int n_buses = 0;
+char buses[BUFFER];
+FILE *seq_file, *matrix_file;
 int matrix[][MAX_SEMAPHORES] = {0};
 
 /**
@@ -32,20 +36,15 @@ bool checkDeadlock() {
 int main(int argc, char *argv[]) {
     if (argc == 2) {
         double p = atof(argv[1]);
-
         if (p >= 0 && p <= 1) {
-            FILE *seq_file, *matrix_file;
-            char buses[BUFFER];
-            int n_buses = 0; // Number of buses in sequence.txt
-
             // Read the number of buses from the sequence.txt file
             seq_file = fopen("sequence.txt", "r");
             if (seq_file == NULL) {
-                printf("Couldn't open file sequence.txt\n");
+                printf("Error opening file sequence.txt\n");
                 return 1;
             }
 
-            // Determine number of charactesr in sequence.txt
+            // Determine the number of charactesr in sequence.txt
             while (fscanf(seq_file, "%c", &buses[n_buses]) != EOF) {
                 n_buses++;
             }
@@ -61,9 +60,11 @@ int main(int argc, char *argv[]) {
             // Create the matrix.txt file and initialize the matrix to 0
             matrix_file = fopen("matrix.txt", "w");
             if (matrix_file == NULL) {
-                printf("Error creating file matrix.txt\n");
+                printf("Error opening file matrix.txt\n");
                 return 1;
             }
+
+            // Write matrix to file matrix.txt
             for (int i = 0; i < n_buses; i++) {
                 for (int j = 0; j < MAX_SEMAPHORES; j++) {
                     fprintf(matrix_file, "%d ", matrix[i][j]);
