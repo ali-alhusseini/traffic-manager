@@ -8,7 +8,7 @@
 #include <math.h>
 #include <time.h>
 
-#define MAX_BUSES 100 // Maximum number of buses
+#define BUFFER 100 // Maximum number of buses
 #define MAX_SEMAPHORES 4 // Number of synchronizing semaphores
 
 int matrix[][MAX_SEMAPHORES] = {0};
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
 
         if (p >= 0 && p <= 1) {
             FILE *seq_file, *matrix_file;
-            char buses[MAX_BUSES];
+            char buses[BUFFER];
             int n_buses = 0; // Number of buses in sequence.txt
 
             // Read the number of buses from the sequence.txt file
