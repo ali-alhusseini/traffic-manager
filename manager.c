@@ -7,6 +7,7 @@
 #include <stdarg.h>
 #include <math.h>
 #include <time.h>
+#include <stdbool.h>
 
 #define MAX_BUSES 100 // Maximum number of buses
 #define MAX_SEMAPHORES 4 // Number of synchronizing semaphores
