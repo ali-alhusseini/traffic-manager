@@ -20,12 +20,12 @@
 sem_t north, west, south, east, junction, matrix_lock;
 
 //initialize semaphores
-sem_init(&north, 0, 0);
-sem_init(&west, 0, 0);
-sem_init(&south, 0, 0);
-sem_init(&east, 0, 0);
-sem_init(&junction, 0, 0);
-sem_init(&matrix_lock, 0, 0); 
+sem_init(&north, 0, 1);
+sem_init(&west, 0, 1);
+sem_init(&south, 0, 1);
+sem_init(&east, 0, 1);
+sem_init(&junction, 0, 1);
+sem_init(&matrix_lock, 0, 1); 
 
 int n_buses = 0;
 
