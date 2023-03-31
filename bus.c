@@ -13,8 +13,8 @@
 #define W 1
 #define S 2
 #define E 3
-#define BUFFER 100 // Maximize size for varaibles
-#define MAX_SEMAPHORES 4 // Number of synchronizing semaphores
+#define BUFFER 100
+#define MAX_SEMAPHORES 4
 
 //initialize semaphores
 sem_t north, west, south, east, junction, matrix_lock;

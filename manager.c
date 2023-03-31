@@ -9,8 +9,8 @@
 #include <time.h>
 #include <stdbool.h>
 
-#define BUFFER 100 // Maximum number of buses
-#define MAX_SEMAPHORES 4 // Number of synchronizing semaphores
+#define BUFFER 100
+#define MAX_SEMAPHORES 4
 
 int matrix[][MAX_SEMAPHORES] = {0};
 
