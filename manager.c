@@ -14,7 +14,18 @@
 
 int matrix[][MAX_SEMAPHORES] = {0};
 
+/**
+ * Checks the matrix in matrix.txt and detects a deadlock.
+ */
 bool checkDeadlock() {
+    FILE* matrix_file = fopen("matrix.txt", "r");
+    n_buses = atoi(argv[2]);
+
+    for (int i = 0; i < n_buses; i++) {
+        for (int j = 0; j < 4; j++) {
+            fscanf(matrix_file, "%d", &matrix[i][j]);
+        }
+    }
 
 }
 
@@ -33,10 +44,13 @@ int main(int argc, char *argv[]) {
                 printf("Couldn't open file sequence.txt\n");
                 return 1;
             }
+
+            // Determine number of charactesr in sequence.txt
             while (fscanf(seq_file, "%c", &buses[n_buses]) != EOF) {
                 n_buses++;
             }
 
+            // Save characters from sequence.txt to character array buses
             int i = 0;
             char ch;
             while ((ch = fgetc(seq_file)) != EOF) {
