@@ -34,11 +34,12 @@ bool checkDeadlock() {
 
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
-            if (temp_matrix[i][j] == 2 && 
-                j < MAX_SEMAPHORES - 1 &&
-                temp_matrix[i][j+1] == 1) {
-                    pairs++;
-                }
+            if (temp_matrix[i][j] == 2 
+            && j < MAX_SEMAPHORES - 1 
+            && temp_matrix[i][j+1] == 1) 
+            {
+                pairs++;
+            }
         }
     }
 }
