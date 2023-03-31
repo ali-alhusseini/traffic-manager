@@ -13,18 +13,31 @@
 #define W 1
 #define S 2
 #define E 3
-#define BUFFER 100
+#define BUFFER 100 // Maximize size for varaibles
+#define MAX_SEMAPHORES 4 // Number of synchronizing semaphores
+
 
 sem_t north, west, south, east, junction, matrix_lock;
 
 //initialize semaphores
- sem_init(&north, 0, 0);
- sem_init(&west, 0, 0);
- sem_init(&south, 0, 0);
- sem_init(&east, 0, 0);
- sem_init(&junction, 0, 0);
- sem_init(&matrix_lock, 0, 0); 
+sem_init(&north, 0, 0);
+sem_init(&west, 0, 0);
+sem_init(&south, 0, 0);
+sem_init(&east, 0, 0);
+sem_init(&junction, 0, 0);
+sem_init(&matrix_lock, 0, 0); 
 
+int n_buses = 0;
+
+void writeMatrix() {
+    for (int i = 0; i < n_buses; i++) {
+        for (int j = 0; j < MAX_SEMAPHORES; j++) {
+                    fprintf(matrix_file, "%d ", matrix[i][j]);
+                }
+                fprintf(matrix_file, "\n");
+            }
+            
+}
 
 
 int main(int argc, char* argv[]){
@@ -36,7 +49,7 @@ int main(int argc, char* argv[]){
     // Read the matrix and save it
     FILE* matrix_file = fopen("matrix.txt", "r");
     int matrix[BUFFER][BUFFER];
-    int n_buses = atoi(argv[2]);
+    n_buses = atoi(argv[2]);
 
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < 4; j++) {
