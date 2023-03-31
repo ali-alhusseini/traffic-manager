@@ -66,3 +66,5 @@ https://cboard.cprogramming.com/c-programming/150672-read-strings-text-file-into
 https://www.programiz.com/c-programming/c-file-input-output
 
 https://blog.udemy.com/fopen-c/
+
+https://dyclassroom.com/c/c-file-handling-read-and-write-integers
