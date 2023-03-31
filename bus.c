@@ -26,8 +26,8 @@ sem_init(&junction, 0, 1);
 sem_init(&matrix_lock, 0, 1); 
 
 // Global Variables
-int matrix[BUFFER][BUFFER];
 int n_buses = 0;
+int matrix[BUFFER][BUFFER];
 
 /**
  * Writes the modified matrix to matrix.txt
@@ -52,13 +52,13 @@ int main(int argc, char* argv[]){
     n_buses = atoi(argv[2]);
 
     for (int i = 0; i < n_buses; i++) {
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < MAX_SEMAPHORES; j++) {
             fscanf(matrix_file, "%d", &matrix[i][j]);
         }
     }
 
-    for(int i = 0; i < length; i++) {
-        for(int j = 0; j < 4; j++){
+    for(int i = 0; i < n_buses; i++) {
+        for(int j = 0; j < MAX_SEMAPHORES; j++){
             if(directions[i] == 'N'){
                 printf("Bus %d North bus started\n",busId);
                 printf("Bus %d West bus started\n",getpid());
