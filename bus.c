@@ -30,12 +30,13 @@ sem_t north, west, south, east, junction, matrix_lock;
 int main(int argc, char* argv[]){
     char direction[100];
     direction = &argv[1];
-    int *n_buses = atoi(argv[2]);
+    // char *n_buses_str = argv[2];
     pid_t busId = &argv[3];
 
     // Read the matrix and save it
     FILE* matrix_file = fopen("matrix.txt", "r");
     int matrix[BUFFER][BUFFER];
+    int n_buses = atoi(argv[2]);
 
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < 4; j++) {
