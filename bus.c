@@ -32,7 +32,7 @@ int matrix[BUFFER][BUFFER];
 /**
  * Writes the modified matrix to matrix.txt
  */
-void writeMatrix() {
+void writeMatrix(FILE* matrix_file) {
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
             fprintf(matrix_file, "%d ", matrix[i][j]);
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d request for North-Lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][N]);
                 matrix[i][N] = 1;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][N]);//updating the matrix.txt and specific value
                 sem_post(&matrix_lock);
 
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d North Acquires North-lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][N]);
                 matrix[i][N] = 2;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][N]);
                 sem_post(&matrix_lock);
 
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d request for West-Lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][W]);
                 matrix[i][W] = 1;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
@@ -104,7 +104,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d West releases West-lock\n", getpid());
                 fscanf(matrix_file, "%d", &matrix[i][W]);
                 matrix[i][W] = 0;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
@@ -114,7 +114,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d North releases North-lock\n", getpid());
                 fscanf(matrix_file, "%d", &matrix[i][N]);
                 matrix[i][N] = 0;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][N]);
                 sem_post(&matrix_lock);
 
@@ -127,7 +127,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d request for West-Lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][W]);
                 matrix[i][W] = 1;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
@@ -137,7 +137,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d West Acquires West-lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][W]);
                 matrix[i][W] = 2;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
@@ -147,7 +147,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d request for South-Lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][S]);
                 matrix[i][S] = 1;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
 
@@ -164,7 +164,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d South releases South-lock\n", getpid());
                 fscanf(matrix_file, "%d", &matrix[i][S]);
                 matrix[i][S] = 0;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
 
@@ -174,7 +174,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d West releases West-lock\n", getpid());
                 fscanf(matrix_file, "%d", &matrix[i][W]);
                 matrix[i][W] = 0;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
@@ -187,7 +187,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d request for South-Lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][S]);
                 matrix[i][S] = 1;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
 
@@ -197,7 +197,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d South Acquires South-lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][S]);
                 matrix[i][S] = 2;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
 
@@ -207,7 +207,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d request for East-Lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][E]);
                 matrix[i][E] = 1;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
 
@@ -224,7 +224,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d East releases East-lock\n", getpid());
                 fscanf(matrix_file, "%d", &matrix[i][E]);
                 matrix[i][E] = 0;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
 
@@ -234,7 +234,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d South releases South-lock\n", getpid());
                 fscanf(matrix_file, "%d", &matrix[i][S]);
                 matrix[i][S] = 0;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][S]);
                 sem_post(&matrix_lock);
             } else {
@@ -246,7 +246,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d request for East-Lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][E]);
                 matrix[i][E] = 1;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
 
@@ -256,7 +256,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d East Acquires East-lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][E]);
                 matrix[i][E] = 2;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
 
@@ -266,7 +266,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d request for North-Lock\n", busId);
                 fscanf(matrix_file, "%d", &matrix[i][N]);
                 matrix[i][N] = 1;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][N]);
                 sem_post(&matrix_lock);
 
@@ -283,7 +283,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d North releases North-lock\n", getpid());
                 fscanf(matrix_file, "%d", &matrix[i][N]);
                 matrix[i][N] = 0;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][N]);
                 sem_post(&matrix_lock);
 
@@ -293,7 +293,7 @@ int main(int argc, char* argv[]){
                 printf("Bus %d East releases East-lock\n", getpid());
                 fscanf(matrix_file, "%d", &matrix[i][E]);
                 matrix[i][E] = 0;
-                writeMatrix();
+                writeMatrix(matrix_file);
                 fprintf(matrix_file, "%d", matrix[i][E]);
                 sem_post(&matrix_lock);
             }
