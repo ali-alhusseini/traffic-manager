@@ -153,7 +153,7 @@ int main(int argc, char* argv[]){
 
                 printf("Bus %d Request Junction-Lock\n", getppid());
                 sem_wait(&junction);
-                printf("Bus %d Acquires Junction-Lock; Passing Junction\n", busId);
+                printf("Bus %d Acquires Junction-Lock; Passing Junction\n", getppid());
                 sleep(2);
                 sem_post(&junction);
                 printf("Bus %d releases Junction-Lock\n", getppid());
