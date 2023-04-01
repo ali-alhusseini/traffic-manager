@@ -89,7 +89,6 @@ int main(int argc, char *argv[]) {
                 srand(time(NULL));
                 float r;
                 r = (float) rand() / RAND_MAX;
-                pid_t bus = getpid();
                  if(r < p){
                      checkDeadlock();
                  } else if(buses[j] != NULL){
@@ -99,7 +98,7 @@ int main(int argc, char *argv[]) {
                      if(fork() == 0){
                         char n_buses_str[10];
                         sprintf(n_buses_str, "%d", n_buses);
-                        execlp("./bus", "bus", buses[j], n_buses_str, matrix_file, bus, NULL);
+                        execlp("./bus", "bus", buses[j], n_buses_str, matrix_file, NULL);
                         j++;
                      }
                  } else {
