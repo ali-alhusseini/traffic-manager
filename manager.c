@@ -26,13 +26,13 @@ bool checkDeadlock() {
     int temp_matrix[BUFFER][BUFFER];
     matrix_file = fopen("matrix.txt", "r");
 
-    for (int i = 0; i < n_buses; i++) {
+    for (int i = 0; i < n_buses-1; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
             fscanf(matrix_file, "%d", &temp_matrix[i][j]);
         }
     }
 
-    for (int i = 0; i < n_buses; i++) {
+    for (int i = 0; i < n_buses-1; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
             if (temp_matrix[i][j] == 2 
             && j < MAX_SEMAPHORES - 1 
@@ -74,9 +74,9 @@ int main(int argc, char *argv[]) {
                 printf("Error opening file matrix.txt\n");
                 return 1;
             }
-
+            //CHANGED n_buses to n_buses - 1 because n_buses length = 5
             // Write matrix to file matrix.txt
-            for (int i = 0; i < n_buses; i++) {
+            for (int i = 0; i < n_buses-1; i++) {
                 for (int j = 0; j < MAX_SEMAPHORES; j++) {
                     fprintf(matrix_file, "%d ", matrix[i][j]);
                 }
@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
                      //create child processes
                      if(fork() == 0){
                         char n_buses_str[10];
-                        sprintf(n_buses_str, "%d", n_buses);
+                        sprintf(n_buses_str, "%d", n_buses-1);
                         execlp("./bus", "bus",&buses[j], n_buses_str, NULL);
                     
                      }
