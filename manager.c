@@ -47,7 +47,7 @@ bool checkDeadlock() {
 int main(int argc, char *argv[]) {
     if (argc == 2) {
         double p = atof(argv[1]);
-        if (p >= 0 && p <= 1) {
+        if (p >= 0.2 && p <= 0.7) {
             // Read the number of buses from the sequence.txt file
             seq_file = fopen("sequence.txt", "r");
             if (seq_file == NULL) {
