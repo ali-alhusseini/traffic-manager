@@ -99,8 +99,9 @@ int main(int argc, char *argv[]) {
                         char n_buses_str[10];
                         sprintf(n_buses_str, "%d", n_buses);
                         execlp("./bus", "bus",&buses[j], n_buses_str, NULL);
-                        j++;
+                    
                      }
+                     j++;
                  } else {
                     continue;
                 }
