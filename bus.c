@@ -18,12 +18,6 @@
 
 //initialize semaphores
 sem_t north, west, south, east, junction, matrix_lock;
-sem_init(&north, 0, 1);
-sem_init(&west, 0, 1);
-sem_init(&south, 0, 1);
-sem_init(&east, 0, 1);
-sem_init(&junction, 0, 1);
-sem_init(&matrix_lock, 0, 1); 
 
 // Global Variables
 int n_buses = 0;
@@ -48,6 +42,14 @@ int main(int argc, char* argv[]){
     // Read the matrix from file and save it
     FILE* matrix_file = fopen("matrix.txt", "r");
     n_buses = atoi(argv[2]);
+
+    //initialize semaphores
+    sem_init(&north, 0, 1);
+    sem_init(&west, 0, 1);
+    sem_init(&south, 0, 1);
+    sem_init(&east, 0, 1);
+    sem_init(&junction, 0, 1);
+    sem_init(&matrix_lock, 0, 1); 
 
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
