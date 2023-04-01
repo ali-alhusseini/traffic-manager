@@ -59,7 +59,7 @@ int main(int argc, char* argv[]){
 
     for(int i = 0; i < n_buses; i++) {
         for(int j = 0; j < MAX_SEMAPHORES; j++){
-            if(directions[i] == 'N'){
+            if(direction[i] == 'N'){
                 printf("Bus %d North bus started\n",getppid());
                 printf("Bus %d West bus started\n",getpid());
 
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]){
                 fprintf(matrix_file, "%d", matrix[i][N]);
                 sem_post(&matrix_lock);
 
-            } else if(directions[i] == 'W'){
+            } else if(direction[i] == 'W'){
 
                 printf("Bus %d West bus started\n",getppid());
                 printf("Bus %d South bus started\n",getpid());
@@ -178,7 +178,7 @@ int main(int argc, char* argv[]){
                 fprintf(matrix_file, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
-            } else if(directions[i] == 'S'){
+            } else if(direction[i] == 'S'){
 
                 printf("Bus %d South bus started\n",getppid());
                 printf("Bus %d East bus started\n",getpid());
