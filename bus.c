@@ -42,10 +42,8 @@ void writeMatrix(FILE* matrix_file) {
 }
 
 int main(int argc, char* argv[]){
-    char direction[100];
-    direction = &argv[1];
+    char* direction = argv[1];
     // char *n_buses_str = argv[2];
-    pid_t busId = &argv[3];
 
     // Read the matrix from file and save it
     FILE* matrix_file = fopen("matrix.txt", "r");
