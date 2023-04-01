@@ -91,14 +91,14 @@ int main(int argc, char *argv[]) {
                 r = (float) rand() / RAND_MAX;
                  if(r < p){
                      checkDeadlock();
-                 } else if(buses[j] != NULL){
+                 } else if(&buses[j] != NULL){
                     //else if theres still buses to be created else continue
                     //after continue sleep(2)
                      //create child processes
                      if(fork() == 0){
                         char n_buses_str[10];
                         sprintf(n_buses_str, "%d", n_buses);
-                        execlp("./bus", "bus", buses[j], n_buses_str, NULL);
+                        execlp("./bus", "bus",&buses[j], n_buses_str, NULL);
                         j++;
                      }
                  } else {
