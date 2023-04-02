@@ -96,9 +96,14 @@ int main(int argc, char *argv[]) {
                 srand(time(NULL));
                 float r;
                 r = (float) rand() / RAND_MAX;
-                 if(r < p){
-                     checkDeadlock();
-                 } else if(&buses[j] != NULL){
+                if(r < p){
+                    if (checkDeadlock()) {
+                        printf("DEADLOCK DETECTED\n");
+                        printf("Program now terminating.\n");
+                        printf("Press enter to continue...");
+                        getchar();
+                    }
+                } else if (&buses[j] != NULL) {
                     //else if theres still buses to be created else continue
                     //after continue sleep(2)
                      //create child processes
