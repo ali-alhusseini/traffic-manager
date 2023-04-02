@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
     // char *n_buses_str = argv[2];
 
     // Read the matrix from file and save it
-    FILE* matrix_file = fopen("matrix.txt", "r");
+    matrix_file = fopen("matrix.txt", "r");
     n_buses = atoi(argv[2]);
 
     //initialize semaphores

@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
                 printf("Error opening file matrix.txt\n");
                 return 1;
             }
-            //CHANGED n_buses to n_buses - 1 because n_buses length = 5
+
             // Write matrix to file matrix.txt
             for (int i = 0; i < n_buses-1; i++) {
                 for (int j = 0; j < MAX_SEMAPHORES; j++) {
@@ -94,8 +94,7 @@ int main(int argc, char *argv[]) {
             int j = 0;
             while(1) {
                 srand(time(NULL));
-                float r;
-                r = (float) rand() / RAND_MAX;
+                double r = (double) rand() / RAND_MAX;
                 if(r < p){
                     if (checkDeadlock()) {
                         printf("DEADLOCK DETECTED\n");
