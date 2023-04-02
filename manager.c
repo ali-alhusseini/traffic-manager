@@ -26,13 +26,15 @@ bool checkDeadlock() {
     int temp_matrix[BUFFER][BUFFER];
     matrix_file = fopen("matrix.txt", "r");
 
-    for (int i = 0; i < n_buses-1; i++) {
+    // Read matrix from matrix.txt
+    for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
             fscanf(matrix_file, "%d", &temp_matrix[i][j]);
         }
     }
 
-    for (int i = 0; i < n_buses-1; i++) {
+    // Check for a deadlock 
+    for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
             if (temp_matrix[i][j] == 2 
             && j < MAX_SEMAPHORES - 1 
@@ -42,6 +44,11 @@ bool checkDeadlock() {
             }
         }
     }
+
+    if (pairs == 4) {
+        return true;
+    }
+    return false;
 }
 
 int main(int argc, char *argv[]) {
