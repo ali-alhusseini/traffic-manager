@@ -16,7 +16,7 @@
 int n_buses = 0;
 char buses[BUFFER];
 FILE *seq_file, *matrix_file;
-int matrix[][MAX_SEMAPHORES] = {0};
+int matrix[BUFFER][BUFFER];
 
 /**
  * Checks the matrix in matrix.txt and detects a deadlock.
