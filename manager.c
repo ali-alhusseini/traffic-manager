@@ -96,6 +96,7 @@ int main(int argc, char *argv[]) {
                 srand(time(NULL));
                 double r = (double) rand() / RAND_MAX;
                 if(r < p){
+                    printf("------- Checking for a Deadlock -------\n");
                     if (checkDeadlock()) {
                         printf("DEADLOCK DETECTED\n");
                         printf("Program now terminating.\n");
