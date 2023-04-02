@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
                 fprintf(matrix_file, "\n");
             }
             
-            // USE OF WHILE LOOP TO CHECK FOR DEADLOCK/CREATE CHILD PROCESSES
+            // Create child processes and check for deadlock
             int j = 0;
             while(1) {
                 srand(time(NULL));
@@ -104,17 +104,14 @@ int main(int argc, char *argv[]) {
                         getchar();
                     }
                 } else if (&buses[j] != NULL) {
-                    //else if theres still buses to be created else continue
-                    //after continue sleep(2)
-                     //create child processes
-                     if(fork() == 0){
+                    // Create child processes
+                    if(fork() == 0){
                         char n_buses_str[10];
                         sprintf(n_buses_str, "%d", n_buses-1);
                         execlp("./bus", "bus",&buses[j], n_buses_str, NULL);
-                    
-                     }
-                     j++;
-                 } else {
+                    }
+                    j++;
+                } else {
                     continue;
                 }
             sleep(2);
