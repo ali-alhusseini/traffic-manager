@@ -27,7 +27,7 @@ FILE *matrix_file;
 /**
  * Writes the modified matrix to matrix.txt
  */
-void writeMatrix(FILE* matrix_file) {
+void writeMatrix() {
     matrix_file = fopen("matrix.txt", "w");
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
