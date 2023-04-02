@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
             fclose(matrix_file);
             return 0;
         } else {
-            printf("Value of p has to be between 0 and 1\n");
+            printf("Value of p has to be between 0.2 and 0.7\n");
             printf("Program now terminating.\n");
             printf("Press enter to continue...");
             getchar();
