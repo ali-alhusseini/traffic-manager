@@ -22,11 +22,13 @@ sem_t north, west, south, east, junction, matrix_lock;
 // Global Variables
 int n_buses = 0;
 int matrix[BUFFER][BUFFER];
+FILE *matrix_file;
 
 /**
  * Writes the modified matrix to matrix.txt
  */
 void writeMatrix(FILE* matrix_file) {
+    matrix_file = fopen("matrix.txt", "w");
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
             fprintf(matrix_file, "%d ", matrix[i][j]);
