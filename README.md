@@ -1,8 +1,14 @@
 # Traffic Manager
 
-Traffic Manager is a program designed in C as part of a school project in Operating Systems. The project is meant to be an exercise on deadlock and synchronization concepts.
+## Overview
+Traffic Manager is a C program designed as part of a school project on dealock and synchronization concepts in Operating Systems.
 
----
+## Description
+
+
+## Contributors
+- [Ali Alhusseini](https://github.com/ali-alhusseini)
+- [Riley O'Keefe](https://github.com/R0keefe)
 
 Step 1: 
 
