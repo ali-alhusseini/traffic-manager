@@ -28,6 +28,7 @@ FILE *matrix_file;
  * Reads the matrix from matrix.txt and saves it.
  */
 void readMatrix() {
+    matrix_file = fopen("matrix.txt", "r");
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
             fscanf(matrix_file, "%d", &matrix[i][j]);
@@ -39,9 +40,6 @@ void readMatrix() {
  * Writes the modified matrix to matrix.txt
  */
 void writeMatrix() {
-    //read matrix file again
-    // TODO
-
     matrix_file = fopen("matrix.txt", "w");
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
@@ -54,9 +52,6 @@ void writeMatrix() {
 int main(int argc, char* argv[]){
     char* direction = argv[1];
     // char *n_buses_str = argv[2];
-
-    // Read the matrix from file and save it
-    matrix_file = fopen("matrix.txt", "r");
     n_buses = atoi(argv[2]);
 
     //initialize semaphores
@@ -67,26 +62,88 @@ int main(int argc, char* argv[]){
     sem_init(&junction, 1, 0);
     sem_init(&matrix_lock, 1, 0); 
 
-    for (int i = 0; i < n_buses; i++) {
-        for (int j = 0; j < MAX_SEMAPHORES; j++) {
-            fscanf(matrix_file, "%d", &matrix[i][j]);
-        }
-    }
+    readMatrix();
 
     for(int i = 0; i < n_buses; i++) {
-        // for(int j = 0; j < MAX_SEMAPHORES; j++){
-            if(direction[i] == 'N'){
-                printf("Bus %d North bus started\n",getppid());
-                printf("Bus %d West bus started\n",getpid());
+        if (direction[i] == 'N') {
+            printf("Bus %d: North bus started.\n", getpid());
+            printf("Bus %d: West bus started.\n", getpid());
+
+            printf("Bus %d: Request for North Lock.\n", getpid());
+            sem_wait(&matrix_lock);
+            readMatrix();
+            matrix[i][N] = 1;
+            writeMatrix();
+            sem_post(&matrix_lock);
+
+            sem_wait(&north);
+            printf("Bus %d: North Acquires North Lock.\n", getppid());
+
+            sem_wait(&matrix_lock);
+            readMatrix();
+            matrix[i][N] = 2;
+            writeMatrix();
+            sem_post(&matrix_lock);
+
+            printf("Bus %d: Request for West Lock.\n", getpid());
+            sem_wait(&matrix_lock);
+            writeMatrix();
+            matrix[i][W] = 1;
+            writeMatrix();
+            sem_post(&matrix_lock);
+
+            sem_wait(&west);
+            printf("Bus %d: West Acquires West-lock\n", getppid());
+
+            sem_wait(&matrix_lock);
+            readMatrix();
+            matrix[i][W] = 2;
+            writeMatrix();
+            sem_post(&matrix_lock);
+
+            printf("Bus %d: Requests Junction Lock.\n", getpid());
+            sem_wait(&junction);
+            printf("Bus %d: Acquires Junction-Lock; Passing Junction\n", getpid());
+            sleep(2);
+            sem_post(&junction);
+            printf("Bus %d: releases Junction-Lock\n", getpid());
+
+            sem_post(&west);
+
+            printf("Bus %d releases West lock", getpid());
+
+            sem_wait(&matrix_lock);
+            readMatrix();
+            matrix[i][W] = 0;
+            writeMatrix();
+            sem_post(&matrix_lock);
+
+            sem_post(&north);
+
+            printf("Bus %d releases North lock", getpid());
+
+            sem_wait(&matrix_lock);
+            readMatrix();
+            matrix[i][N] = 0;
+            writeMatrix();
+            sem_post(&matrix_lock);
+
+        }
+    }
+    // Close Files
+    fclose(matrix_file);
+}
+//----------------
+            if (direction[i] == 'N') {
+                printf("Bus %d: North bus started\n", getpid());
+                printf("Bus %d: West bus started\n", getpid());
 
                 sem_wait(&matrix_lock);
-                printf("Bus %d request for North-Lock\n", getppid());
-                // fscanf(matrix_file, "%d", &matrix[i][N]);
                 matrix[i][N] = 1;
                 writeMatrix();
-                // fprintf(matrix_file, "%d", matrix[i][N]);//updating the matrix.txt and specific value
                 sem_post(&matrix_lock);
 
+                printf("Bus %d request for North-Lock\n", getppid());
                 sem_wait(&north);
 
                 printf("Bus %d North Acquires North-lock\n", getppid());
@@ -149,10 +206,8 @@ int main(int argc, char* argv[]){
 
                 sem_wait(&matrix_lock);
                 printf("Bus %d West Acquires West-lock\n", getppid());
-                fscanf(matrix_file, "%d", &matrix[i][W]);
                 matrix[i][W] = 2;
                 writeMatrix();
-                fprintf(matrix_file, "%d", matrix[i][W]);
                 sem_post(&matrix_lock);
 
                 sem_wait(&south);
