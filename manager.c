@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
             }
 
             // Write matrix to file matrix.txt
-            for (int i = 0; i < n_buses-1; i++) {
+            for (int i = 0; i < n_buses; i++) {
                 for (int j = 0; j < MAX_SEMAPHORES; j++) {
                     fprintf(matrix_file, "%d ", matrix[i][j]);
                 }
