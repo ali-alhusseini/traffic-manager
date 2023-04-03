@@ -1,4 +1,9 @@
 # Traffic Manager
+
+Traffic Manager is a program designed in C as part of a school project in Operating Systems. The project is meant to be an exercise on deadlock and synchronization concepts.
+
+---
+
 Step 1: 
 
 -create a sequence.txt file outside of the programs which the manager.c program will read in
