@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
                         printf("Press enter to continue...");
                         getchar();
                     }
-                } else if (&buses[j] != NULL) {
+                } else if (&buses[j] != NULL && j < n_buses) {
                     // Create child processes
                     if(fork() == 0){
                         char n_buses_str[10];
