@@ -8,6 +8,7 @@
 #include <math.h>
 #include <time.h>
 #include <string.h>
+#include <fcntl.h>
 
 #define N 0
 #define W 1
