@@ -311,16 +311,16 @@ int main(int argc, char* argv[]){
     // Close Files and Semaphores
     fclose(matrix_file);
     sem_close(north);
-    sem_unlink(north);
+    sem_unlink("/north");
     sem_close(south);
-    sem_unlink(south);
+    sem_unlink("/south");
     sem_close(west);
-    sem_unlink(west);
+    sem_unlink("/west");
     sem_close(east);
-    sem_unlink(east);
+    sem_unlink("/east");
     sem_close(junction);
-    sem_unlink(junction);
+    sem_unlink("/junction");
     sem_close(matrix_lock);
-    sem_unlink(matrix_lock);
+    sem_unlink("/matrix_lock");
     return 0;
 }
