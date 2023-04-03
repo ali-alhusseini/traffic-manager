@@ -25,6 +25,17 @@ int matrix[BUFFER][BUFFER];
 FILE *matrix_file;
 
 /**
+ * Reads the matrix from matrix.txt and saves it.
+ */
+void readMatrix() {
+    for (int i = 0; i < n_buses; i++) {
+        for (int j = 0; j < MAX_SEMAPHORES; j++) {
+            fscanf(matrix_file, "%d", &matrix[i][j]);
+        }
+    }
+}
+
+/**
  * Writes the modified matrix to matrix.txt
  */
 void writeMatrix() {
