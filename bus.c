@@ -136,7 +136,7 @@ int main(int argc, char* argv[]){
             sem_post(matrix_lock);
 
             sem_wait(west);
-            printf("Bus %d: West Acquires North Lock.\n", getppid());
+            printf("Bus %d: West Acquires West Lock.\n", getppid());
 
             sem_wait(matrix_lock);
             readMatrix();
