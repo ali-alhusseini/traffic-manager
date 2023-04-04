@@ -22,6 +22,14 @@ int n_buses = 0;
 int matrix[BUFFER][BUFFER];
 FILE *matrix_file;
 
+// Semaphore initialization
+sem_t* north;
+sem_t* west; 
+sem_t* south;
+sem_t* east; 
+sem_t* junction;
+sem_t* matrix_lock;
+
 /**
  * Reads the matrix from matrix.txt and saves it.
  */
@@ -52,20 +60,19 @@ int main(int argc, char* argv[]){
     // char *n_buses_str = argv[2];
     n_buses = atoi(argv[2]);
 
-    // Initialize semaphores
-    sem_t* north = sem_open("/north", O_CREAT | O_EXCL, 0644, 1);
-    sem_t* west = sem_open("/west", O_CREAT | O_EXCL, 0644, 1);
-    sem_t* south = sem_open("/south", O_CREAT | O_EXCL, 0644, 1);
-    sem_t* east = sem_open("/east", O_CREAT | O_EXCL, 0644, 1);
-    sem_t* junction = sem_open("/junction", O_CREAT | O_EXCL, 0644, 1);
-    sem_t* matrix_lock = sem_open("/matrix_lock", O_CREAT | O_EXCL, 0644, 1);
+    // Create semaphores
+    north = sem_open("/NORTH", O_CREAT, 0666, 1);
+    west = sem_open("/WEST", O_CREAT, 0666, 1);
+    south = sem_open("/SOUTH", O_CREAT, 0666, 1);
+    east = sem_open("/SOUTH", O_CREAT, 0666, 1);
+    junction = sem_open("/JUNCTION", O_CREAT, 0666, 1);
+    matrix_lock = sem_open("/MATRIXLOCK", O_CREAT, 0666, 1);
 
     readMatrix();
 
     for(int i = 0; i < n_buses; i++) {
         if (direction[i] == 'N') {
             printf("Bus %d: North bus started.\n", getpid());
-            // printf("Bus %d: West bus started.\n", getpid());
 
             printf("Bus %d: Request for North Lock.\n", getpid());
             sem_wait(matrix_lock);
@@ -126,7 +133,6 @@ int main(int argc, char* argv[]){
         } 
         else if (direction[i] == 'W') {
             printf("Bus %d: West bus started.\n", getpid());
-            // printf("Bus %d: South bus started.\n", getpid());
 
             printf("Bus %d: Request for West Lock.\n", getpid());
             sem_wait(matrix_lock);
@@ -187,7 +193,6 @@ int main(int argc, char* argv[]){
         }
         else if (direction[i] == 'S') {
             printf("Bus %d: South bus started.\n", getpid());
-            // printf("Bus %d: East bus started.\n", getpid());
 
             printf("Bus %d: Request for South Lock.\n", getpid());
             sem_wait(matrix_lock);
@@ -248,7 +253,6 @@ int main(int argc, char* argv[]){
         }
         else {
             printf("Bus %d: East bus started.\n", getpid());
-            // printf("Bus %d: North bus started.\n", getpid());
 
             printf("Bus %d: Request for East Lock.\n", getpid());
             sem_wait(matrix_lock);
@@ -311,16 +315,16 @@ int main(int argc, char* argv[]){
     // Close Files and Semaphores
     fclose(matrix_file);
     sem_close(north);
-    sem_unlink("/north");
+    sem_unlink("/NORTH");
     sem_close(south);
-    sem_unlink("/south");
+    sem_unlink("/SOUTH");
     sem_close(west);
-    sem_unlink("/west");
+    sem_unlink("/WEST");
     sem_close(east);
-    sem_unlink("/east");
+    sem_unlink("/EAST");
     sem_close(junction);
-    sem_unlink("/junction");
+    sem_unlink("/JUNCTION");
     sem_close(matrix_lock);
-    sem_unlink("/matrix_lock");
+    sem_unlink("/MATRIXLOCK");
     return 0;
 }
