@@ -1,29 +1,77 @@
 # Traffic Manager
 
 ## Overview
-Traffic Manager is a C program designed as part of a school project on dealock and synchronization concepts in Operating Systems.
+Traffic Manager is a C program designed as part of a school project on dealock 
+and synchronization concepts in Operating Systems.
 
 ## Description
-The program implements a junction crossing scenario that has four directions (North, West, South, East) and buses may come from all directions. The progrma ensures that there is only on bus crossing the junction at a time using semaphores to lock and unlock the junction. 
+The program implements a junction crossing scenario that has four directions 
+(North, West, South, East) and buses may come from all directions. 
+The progrma ensures that there is only on bus crossing the junction at a 
+time using semaphores to lock and unlock the junction. 
 
-Every bus waits if there is already a bus at the junction from its own direction and also gives precedence to the bus coming from its right side.
+Every bus waits if there is already a bus at the junction from its own 
+direction and also gives precedence to the bus coming from its right side.
 
 ```
-                 North
-                 ↓
-                |  .  |
-                |  .  |
-                |  .  |
-                |  .  |
-     ⏤⏤⏤⏤⏤⏤   .   ⏤⏤⏤⏤⏤⏤ ←
-West . . . . . . . . . . . . . . .  East
-  →  ⏤⏤⏤⏤⏤⏤   .   ⏤⏤⏤⏤⏤⏤
-                |  .  |
-                |  .  | 
-                |  .  |
-                |  .  |
-                     ↑
-                 South
+Diagram of the junction:
+
+                         North
+                         ↓
+                        |  .  |
+                        |  .  |
+                        |  .  |
+                        |  .  |
+             ⏤⏤⏤⏤⏤⏤   .   ⏤⏤⏤⏤⏤⏤ ←
+        West . . . . . . . . . . . . . . .  East
+          →  ⏤⏤⏤⏤⏤⏤   .   ⏤⏤⏤⏤⏤⏤
+                        |  .  |
+                        |  .  | 
+                        |  .  |
+                        |  .  |
+                             ↑
+                         South
+```
+
+The program is using a matrix of size n * m where n is the number of buses we
+read from "sequence.txt" , which can be changed, and m is the number of 
+semaphores, which in our case is 4: north, west, south, east. The matrix 
+is saved into the file "matrix.txt" which is initally created by manager.c 
+and then updated by bus.c by the different bus processes.
+
+Each entery in the matrix [i][j] can have one of three values:
+- 0 >> bus hasn't requested or released semaphore.
+- 1 >> bus requested semaphore.
+- 2 >> bus acquired lock for semaphore.
+
+```
+The matrix would look like this if initialized using 4 bus processes:
+
+                       Semaphores
+               North |  West | South | East 
+               ------------------------------
+           NB    0   |   0   |   0   |   0   
+  Buses    WB    0   |   0   |   0   |   0   
+           SB    0   |   0   |   0   |   0   
+           EB    0   |   0   |   0   |   0   
+
+```
+
+At every iteration with p probability we check for a deadlock. Deadlock 
+detection is implemeneted by checking for 4 pairs of repeating 2 and 1 in 
+the matrix.
+
+```
+A possible deadlock scenario would have a matrix as follows:
+
+                       Semaphores
+               North |  West | South | East 
+               ------------------------------
+           NB    2   |   1   |   0   |   0   
+  Buses    WB    0   |   2   |   1   |   0   
+           SB    0   |   0   |   2   |   1   
+           EB    1   |   0   |   0   |   2   
+
 ```
 
 ## Contributors
