@@ -90,6 +90,12 @@ Run the program from `manager.c`
 - [Ali Alhusseini](https://github.com/ali-alhusseini)
 - [Riley O'Keefe](https://github.com/R0keefe)
 
+
+
+
+
+
+
 Step 1: 
 
 -create a sequence.txt file outside of the programs which the manager.c program will read in
