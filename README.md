@@ -74,8 +74,25 @@ A possible deadlock scenario would have a matrix as follows:
 
 ```
 
+## Running the Program
+
+**Compile:**
+
+Use the C comiler `gcc` to compile the files in the following order:
+1. Compile `bus.c` using the `-pthread` flag.
+
+     `gcc -pthread -o bus bus.c`
+
+2. Compile `manager.c`
+
+     `gcc -o manager manager.c`
+
+**Run:**
+Run the program from `manager.c`
+
+`./manager [p value 0.2 to 0.7]`
+
 ## Contributors
-<a href="https://github.com/ali-alhusseini/traffic-manager/graphs/contributors"></a>
 - [Ali Alhusseini](https://github.com/ali-alhusseini)
 - [Riley O'Keefe](https://github.com/R0keefe)
 
