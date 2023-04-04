@@ -44,35 +44,28 @@ Each entery in the matrix [i][j] can have one of three values:
 - 1 >> bus requested semaphore.
 - 2 >> bus acquired lock for semaphore.
 
-```
-The matrix would look like this if initialized using 4 bus processes:
+>The matrix would look like this if initialized using 4 bus processes:
 
-                        Semaphores
-               North |  West | South | East 
-               ------------------------------
-           NB    0   |   0   |   0   |   0   
-  Buses    WB    0   |   0   |   0   |   0   
-           SB    0   |   0   |   0   |   0   
-           EB    0   |   0   |   0   |   0   
-
-```
+|  Buses | North | West | South | East |
+|  ----- | ----- | ---- | ----- | ---- |
+| **NB** |   0   |   0  |   0   |   0  |
+| **WB** |   0   |   0  |   0   |   0  |
+| **SB** |   0   |   0  |   0   |   0  |
+| **EB** |   0   |   0  |   0   |   0  |
 
 At every iteration with p probability we check for a deadlock. Deadlock 
 detection is implemeneted by checking for 4 pairs of repeating 2 and 1 in 
 the matrix.
 
-```
-A possible deadlock scenario would have a matrix as follows:
+>A possible deadlock scenario would have a matrix as follows:
 
-                        Semaphores
-               North |  West | South | East 
-               ------------------------------
-           NB    2   |   1   |   0   |   0   
-  Buses    WB    0   |   2   |   1   |   0   
-           SB    0   |   0   |   2   |   1   
-           EB    1   |   0   |   0   |   2   
+|  Buses | North | West | South | East |
+|  ----- | ----- | ---- | ----- | ---- |
+| **NB** |   2   |   1  |   0   |   0  |
+| **WB** |   0   |   2  |   1   |   0  |
+| **SB** |   0   |   0  |   2   |   1  |
+| **EB** |   1   |   0  |   0   |   2  |
 
-```
 
 ## Running the Program
 
@@ -88,6 +81,7 @@ Use the C comiler `gcc` to compile the files in the following order:
      `gcc -o manager manager.c`
 
 **Run:**
+
 Run the program from `manager.c`
 
 `./manager [p value 0.2 to 0.7]`
