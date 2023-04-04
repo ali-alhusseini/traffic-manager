@@ -14,7 +14,7 @@ Every bus waits if there is already a bus at the junction from its own
 direction and also gives precedence to the bus coming from its right side.
 
 ```
-Diagram of the junction:
+Junction Diagram:
 
                          North
                          ↓
@@ -47,7 +47,7 @@ Each entery in the matrix [i][j] can have one of three values:
 ```
 The matrix would look like this if initialized using 4 bus processes:
 
-                       Semaphores
+                        Semaphores
                North |  West | South | East 
                ------------------------------
            NB    0   |   0   |   0   |   0   
@@ -64,7 +64,7 @@ the matrix.
 ```
 A possible deadlock scenario would have a matrix as follows:
 
-                       Semaphores
+                        Semaphores
                North |  West | South | East 
                ------------------------------
            NB    2   |   1   |   0   |   0   
@@ -75,6 +75,7 @@ A possible deadlock scenario would have a matrix as follows:
 ```
 
 ## Contributors
+<a href="https://github.com/ali-alhusseini/traffic-manager/graphs/contributors"></a>
 - [Ali Alhusseini](https://github.com/ali-alhusseini)
 - [Riley O'Keefe](https://github.com/R0keefe)
 
