@@ -16,21 +16,21 @@ direction and also gives precedence to the bus coming from its right side.
 ```
 Junction Diagram:
 
-                         North
-                         ↓
-                        |  .  |
-                        |  .  |
-                        |  .  |
-                        |  .  |
-             ⏤⏤⏤⏤⏤⏤   .   ⏤⏤⏤⏤⏤⏤ ←
-        West . . . . . . . . . . . . . . .  East
-          →  ⏤⏤⏤⏤⏤⏤   .   ⏤⏤⏤⏤⏤⏤
-                        |  .  |
-                        |  .  | 
-                        |  .  |
-                        |  .  |
-                             ↑
-                         South
+                    North
+                    ↓
+                   |  .  |
+                   |  .  |
+                   |  .  |
+                   |  .  |
+        ⏤⏤⏤⏤⏤⏤   .   ⏤⏤⏤⏤⏤⏤ ←
+   West . . . . . . . . . . . . . . .  East
+     →  ⏤⏤⏤⏤⏤⏤   .   ⏤⏤⏤⏤⏤⏤
+                   |  .  |
+                   |  .  | 
+                   |  .  |
+                   |  .  |
+                        ↑
+                    South
 ```
 
 The program is using a matrix of size n * m where n is the number of buses we
