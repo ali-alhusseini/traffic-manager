@@ -9,6 +9,7 @@
 #include <time.h>
 #include <string.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 #define N 0
 #define W 1
@@ -16,19 +17,17 @@
 #define E 3
 #define BUFFER 100
 #define MAX_SEMAPHORES 4
+sem_t* n;
+sem_t* w; 
+sem_t* s;
+sem_t* e; 
+sem_t* j;
+sem_t* m;
 
 // Global Variables
 int n_buses = 0;
 int matrix[BUFFER][BUFFER];
 FILE *matrix_file;
-
-// Semaphore initialization
-sem_t* north;
-sem_t* west; 
-sem_t* south;
-sem_t* east; 
-sem_t* junction;
-sem_t* matrix_lock;
 
 /**
  * Reads the matrix from matrix.txt and saves it.
@@ -37,9 +36,10 @@ void readMatrix() {
     matrix_file = fopen("matrix.txt", "r");
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
-            fscanf(matrix_file, "%d", &matrix[i][j]);
+            fscanf(matrix_file, "%d ", &matrix[i][j]);
         }
     }
+    fclose(matrix_file);
 }
 
 /**
@@ -52,279 +52,397 @@ void writeMatrix() {
             fprintf(matrix_file, "%d ", matrix[i][j]);
         }
         fprintf(matrix_file, "\n");
+    } 
+    fclose(matrix_file); 
+}
+
+void printMatrix() {
+    //matrix_file = fopen("matrix.txt", "w");
+    for (int i = 0; i < n_buses; i++) {
+        for (int j = 0; j < MAX_SEMAPHORES; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
     }  
 }
 
 int main(int argc, char* argv[]){
     char* direction = argv[1];
-    // char *n_buses_str = argv[2];
     n_buses = atoi(argv[2]);
+    /**
+     * i is the current index of the direction
+    */
+    int i = atoi(argv[3]);
+    int num;
 
-    // Create semaphores
-    north = sem_open("/NORTH", O_CREAT, 0666, 1);
-    west = sem_open("/WEST", O_CREAT, 0666, 1);
-    south = sem_open("/SOUTH", O_CREAT, 0666, 1);
-    east = sem_open("/SOUTH", O_CREAT, 0666, 1);
-    junction = sem_open("/JUNCTION", O_CREAT, 0666, 1);
-    matrix_lock = sem_open("/MATRIXLOCK", O_CREAT, 0666, 1);
+     n = sem_open("/N", O_CREAT, 0644, 1);
+     w = sem_open("/W", O_CREAT, 0644, 1);
+     s = sem_open("/S", O_CREAT, 0644, 1);
+     e = sem_open("/E", O_CREAT, 0644, 1);
+     j = sem_open("/J", O_CREAT, 0644, 1);
+     m = sem_open("/M", O_CREAT, 0644, 1);
 
     readMatrix();
+    printf("I AM CHILD PROCESS <%d>\n", getpid());
+    printMatrix();
+    int d = 0;
+    /**
+     * Convert the given current direction to a number
+    */
+    char D[2] = {*direction};
+    d = strtol(D, NULL, 36) -10;
 
-    for(int i = 0; i < n_buses; i++) {
-        if (direction[i] == 'N') {
+    /**
+     * Convert each direction into a number
+     * From the man page for strtol: 
+     * The letter A in either upper or lower case represents 10
+     * The letter B represents 11 and so on with Z repesenting 35
+    */
+    char nn = 'N';
+    char NN[2] = {nn};
+    int numN = strtol(NN, NULL, 36) - 10;
+
+    char ww = 'W';
+    char WW[2] = {ww};
+    int numW = strtol(WW, NULL, 36) - 10;
+
+    char ss = 'S';
+    char SS[2] = {ss};
+    int numS = strtol(SS, NULL, 36) - 10;
+
+    char ee = 'E';
+    char EE[2] = {ee};
+    int numE = strtol(EE, NULL, 36) - 10;
+        if (d == numN) {
             printf("Bus %d: North bus started.\n", getpid());
 
+            if(m == SEM_FAILED) {
+                printf("SEMAPHORE FAILED\n");
+            } else {
+                printf("SEMAPHORE SUCESS\n");
+            }
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][N] = 1;
+            // writeMatrix();
+            // sem_post(m);
             printf("Bus %d: Request for North Lock.\n", getpid());
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][N] = 1;
-            writeMatrix();
-            sem_post(matrix_lock);
 
-            sem_wait(north);
-            printf("Bus %d: North Acquires North Lock.\n", getppid());
+            //printf("I reached beyond the first lock\n");
+            sem_wait(n);
+            printf("Bus %d: North Acquires North Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
+            sem_wait(m);
             readMatrix();
             matrix[i][N] = 2;
             writeMatrix();
-            sem_post(matrix_lock);
+            sem_post(m);
 
-            printf("Bus %d: Request for West Lock.\n", getpid());
-            sem_wait(matrix_lock);
-            writeMatrix();
+            printf("Bus %d: Request for West Lock.\n", getppid());
+            sem_wait(m);
+            readMatrix();
             matrix[i][W] = 1;
             writeMatrix();
-            sem_post(matrix_lock);
+            //printMatrix();
+            sem_post(m);
 
-            sem_wait(west);
+            sem_wait(w);
             printf("Bus %d: West Acquires West Lock.\n", getppid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][W] = 2;
-            writeMatrix();
-            sem_post(matrix_lock);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][W] = 2;
+            // writeMatrix();
+            // sem_post(m);
 
             printf("Bus %d: Requests Junction Lock.\n", getpid());
-            sem_wait(junction);
+            sem_wait(j);
             printf("Bus %d: Acquires Junction-Lock; Passing Junction\n", getpid());
             sleep(2);
-            sem_post(junction);
+            sem_post(j);
             printf("Bus %d: releases Junction Lock.\n", getpid());
 
-            sem_post(west);
-            printf("Bus %d releases West Lock.\n", getpid());
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][W] = 0;
+            // writeMatrix();
+            // sem_post(m);
+            // sem_post(n);
+            // printf("Bus %d: releases North Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][W] = 0;
-            writeMatrix();
-            sem_post(matrix_lock);
+            sem_post(w);
+            printf("Bus %d releases West Lock.\n", getppid());
 
-            sem_post(north);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][W] = 0;
+            // writeMatrix();
+            // sem_post(m);
+
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][N] = 0;
+            // writeMatrix();
+            // sem_post(m);
+
+            sem_post(n);
             printf("Bus %d: releases North Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][N] = 0;
-            writeMatrix();
-            sem_post(matrix_lock);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][N] = 0;
+            // writeMatrix();
+            // sem_post(m);
+            printMatrix();
         } 
-        else if (direction[i] == 'W') {
+        else if (d == numW) {
             printf("Bus %d: West bus started.\n", getpid());
 
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][W] = 1;
+            // writeMatrix();
+            // sem_post(m);
             printf("Bus %d: Request for West Lock.\n", getpid());
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][W] = 1;
-            writeMatrix();
-            sem_post(matrix_lock);
 
-            sem_wait(west);
-            printf("Bus %d: West Acquires West Lock.\n", getppid());
+            sem_wait(w);
+            printf("Bus %d: West Acquires West Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
+            sem_wait(m);
             readMatrix();
             matrix[i][W] = 2;
             writeMatrix();
-            sem_post(matrix_lock);
+            sem_post(m);
 
-            printf("Bus %d: Request for South Lock.\n", getpid());
-            sem_wait(matrix_lock);
-            writeMatrix();
+            printf("Bus %d: Request for South Lock.\n", getppid());
+            sem_wait(m);
+            readMatrix();
             matrix[i][S] = 1;
             writeMatrix();
-            sem_post(matrix_lock);
+            printMatrix();
+            sem_post(m);
 
-            sem_wait(south);
+            sem_wait(s);
             printf("Bus %d: South Acquires South Lock.\n", getppid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][S] = 2;
-            writeMatrix();
-            sem_post(matrix_lock);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][S] = 2;
+            // writeMatrix();
+            // sem_post(m);
 
             printf("Bus %d: Requests Junction Lock.\n", getpid());
-            sem_wait(junction);
+            sem_wait(j);
             printf("Bus %d: Acquires Junction-Lock; Passing Junction.\n", getpid());
             sleep(2);
-            sem_post(junction);
+            sem_post(j);
             printf("Bus %d: releases Junction Lock.\n", getpid());
 
-            sem_post(south);
-            printf("Bus %d releases South Lock.\n", getpid());
+            //  sem_wait(m);
+            // readMatrix();
+            // matrix[i][S] = 0;
+            // writeMatrix();
+            // sem_post(m);
+            //sem_post(w);
+            //printf("Bus %d: releases West Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][S] = 0;
-            writeMatrix();
-            sem_post(matrix_lock);
+            sem_post(s);
+            printf("Bus %d releases South Lock.\n", getppid());
 
-            sem_post(west);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][S] = 0;
+            // writeMatrix();
+            // sem_post(m);
+
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][W] = 0;
+            // writeMatrix();
+            // sem_post(m);
+
+            sem_post(w);
             printf("Bus %d: releases West Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][W] = 0;
-            writeMatrix();
-            sem_post(matrix_lock);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][W] = 0;
+            // writeMatrix();
+            // sem_post(m);
         }
-        else if (direction[i] == 'S') {
+        else if (d == numS) {
             printf("Bus %d: South bus started.\n", getpid());
 
+           
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][S] = 1;
+            // writeMatrix();
+            // sem_post(m);
             printf("Bus %d: Request for South Lock.\n", getpid());
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][S] = 1;
-            writeMatrix();
-            sem_post(matrix_lock);
 
-            sem_wait(south);
-            printf("Bus %d: South Acquires South Lock.\n", getppid());
+            sem_wait(s);
+            printf("Bus %d: South Acquires South Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
+            sem_wait(m);
             readMatrix();
             matrix[i][S] = 2;
             writeMatrix();
-            sem_post(matrix_lock);
+            sem_post(m);
 
-            printf("Bus %d: Request for East Lock.\n", getpid());
-            sem_wait(matrix_lock);
-            writeMatrix();
+            printf("Bus %d: Request for East Lock.\n", getppid());
+            sem_wait(m);
+            readMatrix();
             matrix[i][E] = 1;
             writeMatrix();
-            sem_post(matrix_lock);
+            printMatrix();
+            sem_post(m);
 
-            sem_wait(east);
+            sem_wait(e);
             printf("Bus %d: East Acquires East Lock.\n", getppid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][E] = 2;
-            writeMatrix();
-            sem_post(matrix_lock);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][E] = 2;
+            // writeMatrix();
+            // sem_post(m);
 
             printf("Bus %d: Requests Junction Lock.\n", getpid());
-            sem_wait(junction);
+            sem_wait(j);
             printf("Bus %d: Acquires Junction-Lock; Passing Junction\n", getpid());
             sleep(2);
-            sem_post(junction);
+            sem_post(j);
             printf("Bus %d: releases Junction Lock.\n", getpid());
 
-            sem_post(east);
-            printf("Bus %d releases East Lock.\n", getpid());
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][E] = 0;
+            // writeMatrix();
+            // sem_post(m);
+            // sem_post(s);
+            // printf("Bus %d: releases South Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][E] = 0;
-            writeMatrix();
-            sem_post(matrix_lock);
+            sem_post(e);
+            printf("Bus %d releases East Lock.\n", getppid());
 
-            sem_post(south);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][E] = 0;
+            // writeMatrix();
+            // sem_post(m);
+
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][S] = 0;
+            // writeMatrix();
+            // sem_post(m);
+
+            sem_post(s);
             printf("Bus %d: releases South Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][S] = 0;
-            writeMatrix();
-            sem_post(matrix_lock);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][S] = 0;
+            // writeMatrix();
+            // sem_post(m);
+            printMatrix();
         }
-        else {
+        else if(d == numE){
             printf("Bus %d: East bus started.\n", getpid());
 
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][E] = 1;
+            // writeMatrix();
+            // sem_post(m);
             printf("Bus %d: Request for East Lock.\n", getpid());
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][E] = 1;
-            writeMatrix();
-            sem_post(matrix_lock);
 
-            sem_wait(east);
-            printf("Bus %d: East Acquires East Lock.\n", getppid());
+            sem_wait(e);
+            printf("Bus %d: East Acquires East Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
+            sem_wait(m);
             readMatrix();
             matrix[i][E] = 2;
             writeMatrix();
-            sem_post(matrix_lock);
+            sem_post(m);
 
-            printf("Bus %d: Request for North Lock.\n", getpid());
-            sem_wait(matrix_lock);
-            writeMatrix();
+            printf("Bus %d: Request for North Lock.\n", getppid());
+            sem_wait(m);
+            readMatrix();
             matrix[i][N] = 1;
             writeMatrix();
-            sem_post(matrix_lock);
+            printMatrix();
+            sem_post(m);
 
-            sem_wait(north);
+            sem_wait(n);
             printf("Bus %d: North Acquires North Lock\n", getppid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][N] = 2;
-            writeMatrix();
-            sem_post(matrix_lock);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][N] = 2;
+            // writeMatrix();
+            // sem_post(m);
 
             printf("Bus %d: Requests Junction Lock.\n", getpid());
-            sem_wait(junction);
+            sem_wait(j);
             printf("Bus %d: Acquires Junction-Lock; Passing Junction.\n", getpid());
             sleep(2);
-            sem_post(junction);
+            sem_post(j);
             printf("Bus %d: releases Junction Lock.\n", getpid());
 
-            sem_post(north);
-            printf("Bus %d: releases North Lock.\n", getpid());
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][N] = 0;
+            // writeMatrix();
+            // sem_post(m);
+            // sem_post(e);
+            // printf("Bus %d: releases East Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][N] = 0;
-            writeMatrix();
-            sem_post(matrix_lock);
+            sem_post(n);
+            printf("Bus %d: releases North Lock.\n", getppid());
 
-            sem_post(east);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][N] = 0;
+            // writeMatrix();
+            // sem_post(m);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][E] = 0;
+            // writeMatrix();
+            // sem_post(m);
+
+            sem_post(e);
             printf("Bus %d: releases East Lock.\n", getpid());
 
-            sem_wait(matrix_lock);
-            readMatrix();
-            matrix[i][E] = 0;
-            writeMatrix();
-            sem_post(matrix_lock);
+            // sem_wait(m);
+            // readMatrix();
+            // matrix[i][E] = 0;
+            // writeMatrix();
+            // sem_post(m);
+            printMatrix();
+        } else {
+            printf("NOT WORKING\n");
         }
-    }
-    // Close Files and Semaphores
-    fclose(matrix_file);
-    sem_close(north);
-    sem_unlink("/NORTH");
-    sem_close(south);
-    sem_unlink("/SOUTH");
-    sem_close(west);
-    sem_unlink("/WEST");
-    sem_close(east);
-    sem_unlink("/EAST");
-    sem_close(junction);
-    sem_unlink("/JUNCTION");
-    sem_close(matrix_lock);
-    sem_unlink("/MATRIXLOCK");
+        //printMatrix();
+    //}
+    
+    // Close Files
+    //fclose(matrix_file);
+    sem_close(n);
+    sem_unlink("/N");
+    sem_close(w);
+    sem_unlink("/W");
+    sem_close(s);
+    sem_unlink("/S");
+    sem_close(e);
+    sem_unlink("/E");
+    sem_close(j);
+    sem_unlink("/J");
+    sem_close(m);
+    sem_unlink("/M");
+    
+    printf("I REACHED THE END\n");
     return 0;
 }
+
