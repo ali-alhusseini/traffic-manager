@@ -114,12 +114,10 @@ bool checkDeadlock()
                 visited[i][j] = 2;
                 visited[i][j+1] = 1;
                 pairs++;
-                x++;
                 } else if(temp_matrix[i][j] == 2 && temp_matrix[i][j % 3] == 1){
                 visited[i][j] = 2;
                 visited[i][j%3] = 1;
                 pairs++;
-                x++;
                 } else {
                     break;
                 }
