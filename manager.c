@@ -25,6 +25,8 @@ char buses[BUFFER];
 FILE *seq_file, *matrix_file;
 int matrix[BUFFER][BUFFER];
 
+char* dir[] = {"North", "West", "South", "East"};
+
 bool checkDeadlock();
 void readSequence();
 void writeMatrix();
@@ -84,35 +86,65 @@ int main(int argc, char *argv[]) {
 /**
  * Checks the matrix in matrix.txt and detects a deadlock.
  */
-bool checkDeadlock() {
+bool checkDeadlock()
+{
     int pairs = 0;
     int temp_matrix[n_buses][MAX_SEMAPHORES];
     matrix_file = fopen("matrix.txt", "r");
+    int visited[n_buses][MAX_SEMAPHORES];
 
     // Read matrix from matrix.txt
-    for (int i = 0; i < n_buses; i++) {
-        for (int j = 0; j < MAX_SEMAPHORES; j++) {
+    for (int i = 0; i < n_buses; i++)
+    {
+        for (int j = 0; j < MAX_SEMAPHORES; j++)
+        {
             fscanf(matrix_file, "%d ", &temp_matrix[i][j]);
         }
     }
 
     // Check for a deadlock
-    for (int i = 0; i < n_buses; i++) {
-        for (int j = 0; j < MAX_SEMAPHORES; j++) {
-            if (
-                temp_matrix[i][j] == 2 
-                && (temp_matrix[i][j + 1] == 1 
-                || temp_matrix[i][j % 3] == 1)
-            ) 
+    int x = 0;
+    for (int i = 0; i < n_buses; i++)
+    {
+        for (int j = 0; j < MAX_SEMAPHORES; j++)
+        {
+            if (temp_matrix[i][j] == 2 && (temp_matrix[i][j + 1] == 1 || temp_matrix[i][j % 3] == 1))
             {
+                if(temp_matrix[i][j] == 2 && temp_matrix[i][j + 1] == 1){
+                visited[i][j] = 2;
+                visited[i][j+1] = 1;
                 pairs++;
+                x++;
+                } else if(temp_matrix[i][j] == 2 && temp_matrix[i][j % 3] == 1){
+                visited[i][j] = 2;
+                visited[i][j%3] = 1;
+                pairs++;
+                x++;
+                } else {
+                    break;
+                }
             }
         }
     }
-    if (pairs == 4) {
-        printf("There are %d pairs.\n", pairs);
+    if (pairs == 4)
+    {
+        printf("THERE ARE %d PAIRS.\n", pairs);
         printf("Deadlock detected\n");
-        return true;
+        printf("Cycle:\n");
+        for (int i = 0; i < 4; i++) {
+                if(visited[i][0] == 2 && visited[i][1] == 1){
+                printf("---> Bus from %s is waiting for bus from %s ---> \n", dir[0], dir[1]);
+                } else if (visited[i][1] == 2 && visited[i][2] == 1){
+                   printf("---> Bus from %s is waiting for bus from %s ---> \n", dir[1], dir[2]); 
+                } else if (visited[i][2] == 2 && visited[i][3] == 1){
+                   printf("---> Bus from %s is waiting for bus from %s ---> \n", dir[2], dir[3]); 
+                } else if (visited[i][3] == 2 && visited[i][0] == 1){
+                   printf("---> Bus from %s is waiting for bus from %s ---> \n", dir[3], dir[0]); 
+                } else {
+                    break;
+                }
+    }
+    return true;
     }
     return false;
 }
