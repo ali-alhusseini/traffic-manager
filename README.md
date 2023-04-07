@@ -5,10 +5,9 @@ Traffic Manager is a C program designed as part of a school project on dealock
 and synchronization concepts in Operating Systems.
 
 ## Description
-The program implements a junction crossing scenario that has four directions 
-(North, West, South, East) and buses may come from all directions. 
-The progrma ensures that there is only on bus crossing the junction at a 
-time using semaphores to lock and unlock the junction. 
+The program implements a junction crossing scenario that has four directions (North, West, South, East)
+and buses may come from all directions. The program ensures that there is only one bus crossing the 
+junction at a time using semaphores to lock and unlock the junction.
 
 Every bus waits if there is already a bus at the junction from its own 
 direction and also gives precedence to the bus coming from its right side.
