@@ -37,41 +37,35 @@ int matrix[BUFFER][BUFFER];
  */
 bool checkDeadlock() {
     int pairs = 0;
-    int temp_matrix[BUFFER][BUFFER];
+    int temp_matrix[n_buses][MAX_SEMAPHORES];
     matrix_file = fopen("matrix.txt", "r");
 
     // Read matrix from matrix.txt
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
-            temp_matrix[i][0] = fscanf(matrix_file, "%d ", &temp_matrix[i][0]);
-            temp_matrix[i][1] = fscanf(matrix_file, "%d ", &temp_matrix[i][1]);
-            temp_matrix[i][2] = fscanf(matrix_file, "%d ", &temp_matrix[i][2]);
-            temp_matrix[i][3] = fscanf(matrix_file, "%d ", &temp_matrix[i][3]);
+            fscanf(matrix_file, "%d ", &temp_matrix[i][j]);
         }
     }
 
     // Check for a deadlock 
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
-           if(temp_matrix[0][0] == 2 && temp_matrix[0][1] == 1){
-            pairs++;
-           } else if (temp_matrix[i][0] == 2 && temp_matrix[i][1] == 1){
-            pairs++;
-           } else if (temp_matrix[i][1] == 2 && temp_matrix[i][2] == 1){
-            pairs++;
-           } else if (temp_matrix[i][2] == 2 && temp_matrix[i][3] == 1){
-            pairs++;
-           } else if (temp_matrix[i][3] == 2 && temp_matrix[i][0] == 1){
-            break;
-           }
+           if(temp_matrix[i][j] == 2 && (temp_matrix[i][j+1] == 1 || temp_matrix[i][j%3] == 1)){
+            pairs = pairs + 1;
+           }   
       }
-      //fclose(matrix_file);
     }
     if (pairs == 4) {
         printf("THERE ARE %d PAIRS.\n", pairs);
         printf("Deadlock detected\n");
         return true;
     }
+    // for(int i = 0; i < n_buses; i++){
+    //     for(int j = 0; j < MAX_SEMAPHORES; j++){
+    //         printf("%d ", temp_matrix[i][j]);
+    //     }
+    //     printf("\n");
+    // }
     printf("NO DEADLOCK DETECTED, THERE ARE %d PAIRS.\n", pairs);
     return false; 
 }
@@ -127,7 +121,10 @@ int main(int argc, char *argv[]) {
             //r = 0.8;
             pid_t bus = getpid();
              if(r < p){
-                 checkDeadlock();
+                 if(checkDeadlock()){
+                    printf("DEADLOCK\n");
+                    exit(0);
+                 }
              } else if(&buses[j] != NULL && j < n_buses){
                 //else if theres still buses to be created else continue
                 //after continue sleep(2)
@@ -140,7 +137,7 @@ int main(int argc, char *argv[]) {
                     printf("%s", index);
                     // char n_buses_str[10];
                     // sprintf(n_buses_str, "%d", n_buses);
-                    execlp("./bus", "bus", &buses[j], n_buses_str,index, NULL);
+                    execlp("./bus3", "bus3", &buses[j], n_buses_str,index, NULL);
                  }
                  j++;
                  p = 1-p;
@@ -170,3 +167,4 @@ int main(int argc, char *argv[]) {
     }
      return 0;
 }
+
