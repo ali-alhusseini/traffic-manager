@@ -94,27 +94,22 @@ bool checkDeadlock()
     int visited[n_buses][MAX_SEMAPHORES];
 
     // Read matrix from matrix.txt
-    for (int i = 0; i < n_buses; i++)
-    {
-        for (int j = 0; j < MAX_SEMAPHORES; j++)
-        {
+    for (int i = 0; i < n_buses; i++) {
+        for (int j = 0; j < MAX_SEMAPHORES; j++) {
             fscanf(matrix_file, "%d ", &temp_matrix[i][j]);
         }
     }
 
     // Check for a deadlock
     int x = 0;
-    for (int i = 0; i < n_buses; i++)
-    {
-        for (int j = 0; j < MAX_SEMAPHORES; j++)
-        {
-            if (temp_matrix[i][j] == 2 && (temp_matrix[i][j + 1] == 1 || temp_matrix[i][j % 3] == 1))
-            {
+    for (int i = 0; i < n_buses; i++) {
+        for (int j = 0; j < MAX_SEMAPHORES; j++) {
+            if (temp_matrix[i][j] == 2 && (temp_matrix[i][j + 1] == 1 || temp_matrix[i][j % 3] == 1)) {
                 if(temp_matrix[i][j] == 2 && temp_matrix[i][j + 1] == 1){
                 visited[i][j] = 2;
                 visited[i][j+1] = 1;
                 pairs++;
-                } else if(temp_matrix[i][j] == 2 && temp_matrix[i][j % 3] == 1){
+                } else if (temp_matrix[i][j] == 2 && temp_matrix[i][j % 3] == 1) {
                 visited[i][j] = 2;
                 visited[i][j%3] = 1;
                 pairs++;
@@ -124,8 +119,7 @@ bool checkDeadlock()
             }
         }
     }
-    if (pairs == 4)
-    {
+    if (pairs == 4) {
         printf("THERE ARE %d PAIRS.\n", pairs);
         printf("Deadlock detected\n");
         printf("Cycle:\n");
