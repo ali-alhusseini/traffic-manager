@@ -56,8 +56,10 @@ void writeMatrix() {
     fclose(matrix_file); 
 }
 
+/**
+ * Prints the matrix to the console.
+*/
 void printMatrix() {
-    //matrix_file = fopen("matrix.txt", "w");
     for (int i = 0; i < n_buses; i++) {
         for (int j = 0; j < MAX_SEMAPHORES; j++) {
             printf("%d ", matrix[i][j]);
@@ -69,9 +71,7 @@ void printMatrix() {
 int main(int argc, char* argv[]){
     char* direction = argv[1];
     n_buses = atoi(argv[2]);
-    /**
-     * i is the current index of the direction
-    */
+    // Bus number
     int i = atoi(argv[3]);
     int num;
 
@@ -84,11 +84,8 @@ int main(int argc, char* argv[]){
 
     readMatrix();
     printf("I AM CHILD PROCESS <%d>\n", getpid());
-    //printMatrix();
     int d = 0;
-    /**
-     * Convert the given current direction to a number
-    */
+    // Convert the direction into a number
     char D[2] = {*direction};
     d = strtol(D, NULL, 36) -10;
 
