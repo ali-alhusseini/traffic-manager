@@ -140,7 +140,7 @@ int main(int argc, char *argv[]) {
                     printf("%s", index);
                     // char n_buses_str[10];
                     // sprintf(n_buses_str, "%d", n_buses);
-                    execlp("./bus3", "bus3", &buses[j], n_buses_str,index, NULL);
+                    execlp("./bus", "bus", &buses[j], n_buses_str,index, NULL);
                  }
                  j++;
                  p = 1-p;
