@@ -164,3 +164,5 @@ https://www.programiz.com/c-programming/c-file-input-output
 https://blog.udemy.com/fopen-c/
 
 https://dyclassroom.com/c/c-file-handling-read-and-write-integers
+
+https://stackoverflow.com/questions/1469711/converting-letters-to-numbers-in-c
