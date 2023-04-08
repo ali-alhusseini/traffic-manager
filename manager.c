@@ -47,6 +47,9 @@ int main(int argc, char *argv[]) {
                 if (r < p) {
                     if (checkDeadlock()) {
                         printf("System Deadlocked.\n");
+                        printf("Program now terminating.\n");
+                        printf("Press enter to continue...");
+                        getchar();
                         exit(0);
                     }
                 }
