@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
                                 char index[10];
                                 sprintf(index, "%d", j);
                                 printf("%s", index);
-                                execlp("./bus2", "bus2", &buses[j], n_buses_str, index, NULL);
+                                execlp("./bus", "bus", &buses[j], n_buses_str, index, NULL);
                             } else {
                                 wait(NULL);
                             }
