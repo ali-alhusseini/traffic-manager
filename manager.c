@@ -41,33 +41,33 @@ int main(int argc, char *argv[]) {
 
             // Create child processes and check for deadlock
             int j = 0;
+            int signal = 0;
             while (1) {
                 srand(time(NULL));
                 double r = (double)rand() / RAND_MAX;
-                pid_t bus = getpid();
                 if (r < p) {
                     if (checkDeadlock()) {
+                        signal++;
                         printf("System Deadlocked.\n");
                         printf("Program now terminating.\n");
                         printf("Press enter to continue...");
                         getchar();
                         exit(0);
-                    }
-                }
-                else if (&buses[j] != NULL && j < n_buses) {
-                    char n_buses_str[10];
-                    sprintf(n_buses_str, "%d", n_buses);
-                    if (fork() == 0) {
-                        char index[10];
-                        sprintf(index, "%d", j);
-                        printf("%s", index);
-                        execlp("./bus", "bus", &buses[j], n_buses_str, index, NULL);
-                    }
+                    } else {
+                        if (&buses[j] != NULL && j < n_buses && signal == 0) {
+                            char n_buses_str[10];
+                            sprintf(n_buses_str, "%d", n_buses);
+                            if (fork() == 0) {
+                                char index[10];
+                                sprintf(index, "%d", j);
+                                printf("%s", index);
+                                execlp("./bus2", "bus2", &buses[j], n_buses_str, index, NULL);
+                            } else {
+                                wait(NULL);
+                            }
+                        }
                     j++;
-                    p = 1 - p;
-                }
-                else if (checkDeadlock()) {
-                    break;
+                    }
                 }
                 sleep(1);
             }
