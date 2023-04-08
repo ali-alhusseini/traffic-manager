@@ -83,7 +83,7 @@ Use the C compiler `gcc` to compile the files in the following order:
 
 Run the program from `manager.c`
 
-`./manager [p value 0.2 to 0.7]`
+`./manager <p value 0.2 to 0.7>`
 
 ## Contributors
 - [Ali Alhusseini](https://github.com/ali-alhusseini)
