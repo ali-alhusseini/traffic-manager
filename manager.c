@@ -123,6 +123,8 @@ bool checkDeadlock()
             }
         }
     }
+
+    // Print out cycle
     if (pairs == 4) {
         printf("THERE ARE %d PAIRS.\n", pairs);
         printf("Deadlock detected\n");
