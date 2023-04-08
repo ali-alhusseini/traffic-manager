@@ -35,6 +35,7 @@ int main(int argc, char *argv[]) {
     if (argc == 2) {
         double p = atof(argv[1]);
         if (p >= 0.2 && p <= 0.7) {
+            // Read sequence and create matrix
             readSequence();
             writeMatrix();
 
