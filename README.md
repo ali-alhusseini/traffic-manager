@@ -70,7 +70,7 @@ the matrix.
 
 **Compile:**
 
-Use the C comiler `gcc` to compile the files in the following order:
+Use the C compiler `gcc` to compile the files in the following order:
 1. Compile `bus.c` using the `-pthread` flag.
 
      `gcc -pthread -o bus bus.c`
