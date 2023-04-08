@@ -51,7 +51,6 @@ int main(int argc, char* argv[]) {
     m = sem_open("/M", O_CREAT, 0644, 1);
 
     readMatrix();
-    printf("I AM CHILD PROCESS <%d>\n", getpid());
     int d = 0;
     // Convert the direction into a number
     char D[2] = {*direction};
