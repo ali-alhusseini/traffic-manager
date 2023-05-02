@@ -1,5 +1,5 @@
 # Traffic Manager
-
+`C` `Deadlocks` `Semaphores` `OS Synchronization`
 ## Overview
 Traffic Manager is a C program designed as part of a school project on dealock 
 and synchronization concepts in Operating Systems.
